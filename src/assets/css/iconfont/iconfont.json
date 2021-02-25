@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7142920",
+      "name": "箭头 右",
+      "font_class": "jiantouyou",
+      "unicode": "e6a8",
+      "unicode_decimal": 59048
+    },
+    {
+      "icon_id": "19983427",
+      "name": "箭头-左",
+      "font_class": "zuo",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "2026154",
+      "name": "erji",
+      "font_class": "erji",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "469008",
+      "name": "向前",
+      "font_class": "xiangqian",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "2899243",
+      "name": "音量",
+      "font_class": "yinliang",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "19939805",
+      "name": "暂停 停止 2",
+      "font_class": "zantingtingzhi2",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "6465619",
+      "name": "bo_fang",
+      "font_class": "bo_fang",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "10208851",
+      "name": "上一首",
+      "font_class": "shangyishou",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "11961147",
+      "name": "下一首",
+      "font_class": "prev",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
       "icon_id": "1471841",
       "name": "search",
       "font_class": "search",

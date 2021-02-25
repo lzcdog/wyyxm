@@ -52,7 +52,15 @@ export default {
     }
   }
   }
-  @media screen and (max-width:1100px)  {
+  @media screen and (max-width:1178px)  {
+    .navbar{
+    width: 100%;
+    .center{
+      width: 98%;
+    }
+  }
+  }
+  @media screen and (max-width:1083px)  {
     .navbar{
     width: 110%;
     .center{

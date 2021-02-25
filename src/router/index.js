@@ -3,8 +3,8 @@ import VueRouter from "vue-router"
 Vue.use(VueRouter)
 const findmusic = ()=> import("../view/findmusic/Findmusic.vue")
 const mymusic = ()=>import("../view/mymusic/Mymusic.vue")
-const recommended = ()=>import("../view/recommended/recommended.vue")
-const Leaderboard = ()=>import("../view/Leaderboard/Leaderboard.vue")
+const recommended = ()=>import("../view/findmusic/recommended/recommended.vue")
+const Leaderboard = ()=>import("../view/findmusic/Leaderboard/Leaderboard.vue")
 const router = new VueRouter({
   mode:"history",
   routes:[

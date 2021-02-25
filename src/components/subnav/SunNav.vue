@@ -112,7 +112,15 @@ export default {
     }
   }
 }
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1178px) {
+  .sunnav {
+    width: 100%;
+    .sunnavitem {
+      width: 66%;
+    }
+  }
+}
+@media screen and (max-width: 1083px) {
   .sunnav {
     width: 121%;
     .sunnavitem {
