@@ -9,7 +9,6 @@
 <script>
 //组件
 import SunNav from "@/components/subnav/SunNav";
-
 export default {
   name: "Findmusic",
 

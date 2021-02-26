@@ -2,7 +2,7 @@
   <div>
     <!-- 轮播图 -->
     <div>
-      <swiper class="swiper" :swiperdata="swiperdata"></swiper>
+      <swiper class="swiper" :swiperdata="swiperdata" id="swiper"></swiper>
     </div>
     <!-- 轮播图 -->
 
@@ -32,6 +32,7 @@
     </div>
     <!-- 底部内容 -->
 
+    <totop @click.native="totop" ref="totop"></totop>
   </div>
 </template>
 
@@ -41,6 +42,8 @@ import swiper from "@/components/swiper/swiper";
 import recommendedleft from "@/view/findmusic/recommended/recommendedleft";
 import recommendedright from "@/view/findmusic/recommended/recommendedright";
 import recommendbottom from "@/view/findmusic/recommended/recommendbottom";
+//返回顶部
+import totop from '@/components/totop/totop'
 //网络请求
 import {
   reqswiperdata,
@@ -57,6 +60,7 @@ export default {
     recommendedleft,
     recommendedright,
     recommendbottom,
+    totop
   },
 
   data() {
@@ -102,7 +106,25 @@ export default {
       // console.log(this.newdata);
       // console.log(this.originaldata);
     },
-    
+    //检测高度
+    cheaktop(){
+      //滚动距离
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop // 滚动条偏移量
+      //轮播图到顶部距离
+      let offsetTop = document.querySelector('#swiper').offsetTop
+      //轮播图<顶部距离隐藏大于反之
+      if(scrollTop<offsetTop){
+        this.$refs.totop.$data.show1=false
+      }else{
+        this.$refs.totop.$data.show1=true
+      }
+    },
+    //回到顶部
+    totop() {
+
+      document.body.scrollTop = 0;
+	    document.documentElement.scrollTop = 0;
+    }
   },
 
   created() {
@@ -118,6 +140,15 @@ export default {
     //   console.log(res);
     // })
   },
+  
+  mounted() {
+    //给滚动添加一个监听事件
+    window.addEventListener('scroll',this.cheaktop,true)
+  },
+
+  // destroyed () {//离开该页面需要移除这个监听的事件
+  // window.removeEventListener('scroll', this.cheaktop)
+  // },
 };
 </script>
 
@@ -143,4 +174,5 @@ export default {
 
   }
 }
+
 </style>
