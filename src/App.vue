@@ -22,8 +22,12 @@ export default {
 @import "./assets/css/base.css";
 .botnav{
   position: fixed;
+  // top: 52px;
+  left: 0;
+  right: 0;
   bottom: 0;
   z-index: 19;
+
 }
 
 </style>

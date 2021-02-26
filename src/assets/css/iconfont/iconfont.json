@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3901364",
+      "name": "警察",
+      "font_class": "jingcha",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "1672120",
+      "name": "打赏",
+      "font_class": "dashang",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "9049842",
+      "name": "认证",
+      "font_class": "renzheng",
+      "unicode": "e709",
+      "unicode_decimal": 59145
+    },
+    {
+      "icon_id": "15549977",
+      "name": "视频",
+      "font_class": "ziyuan",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "18611631",
+      "name": "CD",
+      "font_class": "CD",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "8994273",
+      "name": "收藏",
+      "font_class": "shoucang",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
       "icon_id": "7142920",
       "name": "箭头 右",
       "font_class": "jiantouyou",

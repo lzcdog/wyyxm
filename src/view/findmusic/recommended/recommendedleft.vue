@@ -113,7 +113,9 @@
                       <div class="beijing2"></div>
                       <div class="cd"></div>
                     </div>
-                    <a href="" style="font-size: 12px" class="songname">{{ item.name }}</a>
+                    <a href="" style="font-size: 12px" class="songname">{{
+                      item.name
+                    }}</a>
                     <p style="font-size: 12px; color: #666" class="songername">
                       {{ songername(item.artists) }}
                     </p>
@@ -138,7 +140,9 @@
                       <div class="beijing2"></div>
                       <div class="cd"></div>
                     </div>
-                    <a href="" style="font-size: 12px" class="songname">{{ item.name }}</a>
+                    <a href="" style="font-size: 12px" class="songname">{{
+                      item.name
+                    }}</a>
                     <p style="font-size: 12px; color: #666" class="songername">
                       {{ songername(item.artists) }}
                     </p>
@@ -159,7 +163,243 @@
       </div>
       <!-- 新碟上架 -->
 
-      
+      <!-- 榜单 -->
+      <div class="list">
+        <div class="list1">
+          <div class="listtitle">
+            <!-- 同心圆 -->
+            <div class="tongxinyuan">
+              <div class="big"></div>
+              <div class="small"></div>
+              <span class="name">榜单</span>
+            </div>
+            <!-- 同心圆 -->
+            <div class="gengduo">
+              更多
+              <span
+                style="font-size: 13px; color: rgb(193, 13, 12)"
+                class="iconfont icon-xiangqian"
+              ></span>
+            </div>
+          </div>
+          <div class="listcontent">
+            <div class="content1">
+              <div class="contenthead" style="position: relative">
+                <img
+                  class="contentimg"
+                  src="http://p4.music.126.net/DrRIg6CrgDfVLEph9SNh7w==/18696095720518497.jpg"
+                  alt=""
+                />
+                <div class="beijing3"></div>
+                <div class="contenttext">
+                  <div style="margin-bottom: 5px; font-size: 15px">飙升榜</div>
+                  <a
+                    href=""
+                    class="iconfont icon-bo_fang"
+                    style="color: #999; font-size: 22px; margin-right: 10px"
+                  ></a>
+                  <a
+                    href=""
+                    class="iconfont icon-shoucang"
+                    style="color: #999; font-size: 22px"
+                  ></a>
+                </div>
+              </div>
+              <div class="contentcenter">
+                <ol class="contentol">
+                  <li
+                    class="contentli"
+                    v-for="(item, index) in updata"
+                    :key="index"
+                  >
+                    <div
+                      class="num"
+                      style="font-weight: bold; margin-right: 10px"
+                      :style="{
+                        color:
+                          index == 0 || index == 1 || index == 2
+                            ? 'rgb(193, 12, 12)'
+                            : 'black',
+                        'margin-left': index == 9 ? '-10px' : '',
+                      }"
+                    >
+                      {{ index + 1 }}
+                    </div>
+                    <a
+                      href=""
+                      class="zi"
+                      style="font-size: 12px; color: black"
+                      >{{ item.name }}</a
+                    >
+                  </li>
+                  <div
+                    style="
+                      width: 230px;
+                      height: 30px;
+                      background-color: rgb(232, 232, 232);
+                      font-size: 12px;
+                    "
+                  >
+                    <div
+                      style="
+                        width: 230px;
+                        height: 30px;
+                        line-height: 30px;
+                        margin-left: 140px;
+                      "
+                    >
+                      查看更多>
+                    </div>
+                  </div>
+                </ol>
+              </div>
+            </div>
+            <div class="content1">
+              <div class="contenthead" style="position: relative">
+                <img
+                  class="contentimg"
+                  src="http://p4.music.126.net/N2HO5xfYEqyQ8q6oxCw8IQ==/18713687906568048.jpg"
+                  alt=""
+                />
+                <div class="beijing3"></div>
+                <div class="contenttext">
+                  <div style="margin-bottom: 5px; font-size: 15px">新歌榜</div>
+                  <a
+                    href=""
+                    class="iconfont icon-bo_fang"
+                    style="color: #999; font-size: 22px; margin-right: 10px"
+                  ></a>
+                  <a
+                    href=""
+                    class="iconfont icon-shoucang"
+                    style="color: #999; font-size: 22px"
+                  ></a>
+                </div>
+              </div>
+              <div class="contentcenter">
+                <ol class="contentol">
+                  <li
+                    class="contentli"
+                    v-for="(item, index) in newdata"
+                    :key="index"
+                  >
+                    <div
+                      class="num"
+                      style="font-weight: bold; margin-right: 10px"
+                      :style="{
+                        color:
+                          index == 0 || index == 1 || index == 2
+                            ? 'rgb(193, 12, 12)'
+                            : 'black',
+                        'margin-left': index == 9 ? '-10px' : '',
+                      }"
+                    >
+                      {{ index + 1 }}
+                    </div>
+                    <a
+                      href=""
+                      class="zi"
+                      style="font-size: 12px; color: black"
+                      >{{ item.name }}</a
+                    >
+                  </li>
+                  <div
+                    style="
+                      width: 230px;
+                      height: 30px;
+                      background-color: rgb(232, 232, 232);
+                      font-size: 12px;
+                    "
+                  >
+                    <div
+                      style="
+                        width: 230px;
+                        height: 30px;
+                        line-height: 30px;
+                        margin-left: 140px;
+                      "
+                    >
+                      查看更多>
+                    </div>
+                  </div>
+                </ol>
+              </div>
+            </div>
+            <div class="content1">
+              <div class="contenthead" style="position: relative">
+                <img
+                  class="contentimg"
+                  src="http://p3.music.126.net/sBzD11nforcuh1jdLSgX7g==/18740076185638788.jpg"
+                  alt=""
+                />
+                <div class="beijing3"></div>
+                <div class="contenttext">
+                  <div style="margin-bottom: 5px; font-size: 15px">原创榜</div>
+                  <a
+                    href=""
+                    class="iconfont icon-bo_fang"
+                    style="color: #999; font-size: 22px; margin-right: 10px"
+                  ></a>
+                  <a
+                    href=""
+                    class="iconfont icon-shoucang"
+                    style="color: #999; font-size: 22px"
+                  ></a>
+                </div>
+              </div>
+              <div class="contentcenter">
+                <ol class="contentol">
+                  <li
+                    class="contentli"
+                    v-for="(item, index) in originaldata"
+                    :key="index"
+                  >
+                    <div
+                      class="num"
+                      style="font-weight: bold; margin-right: 10px"
+                      :style="{
+                        color:
+                          index == 0 || index == 1 || index == 2
+                            ? 'rgb(193, 12, 12)'
+                            : 'black',
+                        'margin-left': index == 9 ? '-10px' : '',
+                      }"
+                    >
+                      {{ index + 1 }}
+                    </div>
+                    <a
+                      href=""
+                      class="zi"
+                      style="font-size: 12px; color: black"
+                      >{{ item.name }}</a
+                    >
+                  </li>
+                  <div
+                    style="
+                      width: 230px;
+                      height: 30px;
+                      background-color: rgb(232, 232, 232);
+                      font-size: 12px;
+                    "
+                  >
+                    <div
+                      style="
+                        width: 230px;
+                        height: 30px;
+                        line-height: 30px;
+                        margin-left: 140px;
+                      "
+                    >
+                      查看更多>
+                    </div>
+                  </div>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 榜单 -->
     </div>
   </div>
 </template>
@@ -177,6 +417,18 @@ export default {
       default: [],
     },
     seconddata: {
+      type: Array,
+      default: [],
+    },
+    updata: {
+      type: Array,
+      default: [],
+    },
+    newdata: {
+      type: Array,
+      default: [],
+    },
+    originaldata: {
       type: Array,
       default: [],
     },
@@ -204,22 +456,22 @@ export default {
     //歌手名字
     songername() {
       // const artists = this.seconddata.map((v) => v.artists);
-      return function (artists){
-        const length1 = (artists).length
-        if(length1>1){
-          let name = ''
-          for(let i = 0;i<length1;i++){
-            if(i<length1-1){
-              name = name+artists[i].name+' / '
-            }else{
-              name = name+artists[i].name
+      return function (artists) {
+        const length1 = artists.length;
+        if (length1 > 1) {
+          let name = "";
+          for (let i = 0; i < length1; i++) {
+            if (i < length1 - 1) {
+              name = name + artists[i].name + " / ";
+            } else {
+              name = name + artists[i].name;
             }
           }
-          return this.name = name
-        }else{
-          return artists[0].name
+          return (this.name = name);
+        } else {
+          return artists[0].name;
         }
-      }
+      };
     },
   },
 
@@ -268,9 +520,8 @@ export default {
 
 <style scoped lang="less">
 .frame1 {
-  // position: absolute;
-  // position: relative;
   width: 730px;
+  height: 1420px;
   background-color: #fff;
   border: 1px solid rgb(211, 211, 211);
   .hotrecommend {
@@ -338,16 +589,16 @@ export default {
     height: 280px;
     .newshelvescontent {
       .newshelvestitle {
+        margin: 0 20px;
         display: flex;
         align-items: center;
         padding-bottom: 5px;
         border-bottom: 3px solid rgb(193, 12, 12);
-        padding: 0 20px;
       }
       .newshelvescontent {
         width: 689px;
         height: 188px;
-        margin: 0 20px;
+        margin: 0 auto;
         margin-top: 20px;
         border: 1px solid rgb(211, 211, 211);
         background-color: rgb(245, 245, 245);
@@ -362,6 +613,7 @@ export default {
             position: relative;
             width: 645px;
             height: 180px;
+
             display: flex;
             overflow: hidden;
             white-space: nowrap;
@@ -383,7 +635,7 @@ export default {
                   border: 1px solid rgb(172, 172, 172);
                   width: 108px;
                   height: 100px;
-                  box-shadow: 0px 5px 5px #888888;
+                  box-shadow: 0px 5px 8px #888888;
                   margin-bottom: 5px;
                   position: relative;
                   z-index: 9;
@@ -401,6 +653,81 @@ export default {
       }
     }
   }
+  .list {
+    width: 100%;
+    height: 530px;
+    margin-bottom: 100px;
+    .list1 {
+      padding: 0 20px;
+      // background-color: yellow;
+      .listtitle {
+        // background-color: green;
+        display: flex;
+        align-items: center;
+        padding-bottom: 5px;
+        border-bottom: 3px solid rgb(193, 12, 12);
+      }
+      .listcontent {
+        width: 689px;
+        height: 472px;
+        margin-top: 20px;
+        display: flex;
+        .content1 {
+          width: 230px;
+          height: 472px;
+          background-color: rgb(244, 244, 244);
+          border: 1px solid rgb(211, 211, 211);
+          .contenthead {
+            width: 180px;
+            height: 120px;
+            margin: 0 auto;
+            display: flex;
+            font-weight: bold;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            .contentimg {
+              width: 100px;
+              height: 100px;
+              margin-right: 10px;
+              box-shadow: 0px 4px 8px black;
+            }
+            .contenttext {
+              margin-top: 10px;
+            }
+          }
+          .contentcenter {
+            width: 230px;
+            height: 319px;
+            .contentol {
+              list-style: none;
+              .contentli {
+                display: flex;
+                align-items: center;
+                padding-left: 35px;
+                height: 30.1px;
+                width: 195px;
+                // border: 1px solid red;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.zi {
+  width: 180px;
+  height: 30px;
+  line-height: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.num:nth-child(1) {
+  color: blue;
+}
+.contentli:nth-child(2n + 1) {
+  background-color: rgb(232, 232, 232);
 }
 .cd {
   width: 50px;
@@ -449,7 +776,6 @@ export default {
   .beijing();
   position: absolute;
   top: 0;
-  left: 0px;
 }
 .beijing2 {
   width: 0px;
@@ -463,16 +789,26 @@ export default {
   left: 0px;
   opacity: 0.2;
 }
+.beijing3 {
+  width: 0px;
+  height: 0px;
+  border-top: 52px solid white;
+  border-left: 52px solid white;
+  border-right: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  position: absolute;
+  opacity: 0.2;
+}
 .gengduo {
   flex: 1;
   text-align: right;
   font-size: 12px;
-  color: rgb(102, 102, 151);
+  color: #666;
 }
 a {
   text-decoration: none;
 }
-.songername{
+.songername {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

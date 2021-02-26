@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="botnav">
-      <div class="left">dddd</div>
+      <div class="left"></div>
 
       <!-- 播放器 -->
       <div class="center">
@@ -109,6 +109,8 @@ export default {
   height: 50px;
   display: flex;
   background-color: rgb(42, 42, 42);
+  padding: 5px 0;
+  box-shadow: 1px 0 3px rgb(34, 33, 33);
   .left {
     flex: 2;
     height: 50px;

@@ -18,3 +18,16 @@ export function newshelves(){
     url: "/album/newest",
   })
 }
+
+export function listdata(data){
+  return request({
+    url: "/top/list",
+    params: data
+  })
+}
+// export function music(data){
+//   return request({
+//     url:"/album",
+//     params:data
+//   })
+// }
