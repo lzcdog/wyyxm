@@ -43,7 +43,9 @@ import recommendedleft from "@/view/findmusic/recommended/recommendedleft";
 import recommendedright from "@/view/findmusic/recommended/recommendedright";
 import recommendbottom from "@/view/findmusic/recommended/recommendbottom";
 //返回顶部
-import totop from '@/components/totop/totop'
+import totop from "@/components/totop/totop";
+//混入js
+import { totop1 } from "../../../utils/mixins";
 //网络请求
 import {
   reqswiperdata,
@@ -60,9 +62,9 @@ export default {
     recommendedleft,
     recommendedright,
     recommendbottom,
-    totop
+    totop,
   },
-
+  mixins: [totop1],
   data() {
     return {
       swiperdata: [],
@@ -106,25 +108,27 @@ export default {
       // console.log(this.newdata);
       // console.log(this.originaldata);
     },
-    //检测高度
-    cheaktop(){
+    //检查高度
+    cheaktop() {
       //滚动距离
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop // 滚动条偏移量
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop; // 滚动条偏移量
       //轮播图到顶部距离
-      let offsetTop = document.querySelector('#swiper').offsetTop
+      let offsetTop = document.querySelector("#swiper").offsetTop;
       //轮播图<顶部距离隐藏大于反之
-      if(scrollTop<offsetTop){
-        this.$refs.totop.$data.show1=false
-      }else{
-        this.$refs.totop.$data.show1=true
+      if (scrollTop < offsetTop) {
+        this.$refs.totop.$data.show1 = false;
+      } else {
+        this.$refs.totop.$data.show1 = true;
       }
     },
     //回到顶部
     totop() {
-
       document.body.scrollTop = 0;
-	    document.documentElement.scrollTop = 0;
-    }
+      document.documentElement.scrollTop = 0;
+    },
   },
 
   created() {
@@ -140,15 +144,6 @@ export default {
     //   console.log(res);
     // })
   },
-  
-  mounted() {
-    //给滚动添加一个监听事件
-    window.addEventListener('scroll',this.cheaktop,true)
-  },
-
-  // destroyed () {//离开该页面需要移除这个监听的事件
-  // window.removeEventListener('scroll', this.cheaktop)
-  // },
 };
 </script>
 
@@ -161,18 +156,16 @@ export default {
   display: flex;
   justify-content: center;
 }
-.recommendbottom1{
+.recommendbottom1 {
   width: 100%;
   height: 140px;
-  border-top: 1px solid rgb(211,211,211);
-  background-color: rgb(242,242,242);
+  border-top: 1px solid rgb(211, 211, 211);
+  background-color: rgb(242, 242, 242);
   margin-bottom: 50px;
-  .recommendbottom2{
+  .recommendbottom2 {
     width: 980px;
     height: 115px;
     margin: 0 auto;
-
   }
 }
-
 </style>
