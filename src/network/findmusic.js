@@ -25,9 +25,3 @@ export function listdata(data){
     params: data
   })
 }
-// export function music(data){
-//   return request({
-//     url:"/album",
-//     params:data
-//   })
-// }

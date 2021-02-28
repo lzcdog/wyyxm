@@ -33,6 +33,9 @@
     <!-- 底部内容 -->
 
     <totop @click.native="totop" ref="totop"></totop>
+
+    
+
   </div>
 </template>
 
@@ -52,7 +55,6 @@ import {
   hotrecommend,
   newshelves,
   listdata,
-  // music
 } from "../../../network/findmusic";
 export default {
   name: "Recommended",
@@ -94,7 +96,7 @@ export default {
       const newshelvesdata = res.albums;
       this.firstdata = newshelvesdata.splice(0, 5);
       this.seconddata = newshelvesdata.splice(0, 5);
-      console.log(this.seconddata);
+      // console.log(this.seconddata);
     },
     //定义榜单数据
     async getlistdata() {
@@ -140,9 +142,7 @@ export default {
     this.getnewshelvesdata();
     //调用获取新碟上架方法
     this.getlistdata();
-    // music({id:122204241}).then(res=>{
-    //   console.log(res);
-    // })
+
   },
 };
 </script>

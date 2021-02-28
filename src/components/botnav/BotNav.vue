@@ -5,12 +5,10 @@
 
       <!-- 播放器 -->
       <div class="center">
-
         <!-- 播放按钮 -->
         <div class="bfclick">
-
           <!-- 前一首 -->
-          <a class="prv" title="上一首">
+          <a class="prv" title="上一首" @click="prv">
             <div
               class="iconfont icon-shangyishou"
               style="font-size: 25px; color: rgb(192, 192, 192)"
@@ -21,27 +19,25 @@
           <!-- 暂停/播放 -->
           <a class="play-pause" @click="bfclick">
             <div
-              class="iconfont icon-bo_fang"
+              :class="[
+                pause
+                  ? 'iconfont icon-bo_fang'
+                  : 'iconfont icon-zantingtingzhi2',
+              ]"
               style="font-size: 35px; color: rgb(255, 255, 255)"
-              v-show="pause"
-            ></div>
-            <div
-              class="iconfont icon-zantingtingzhi2"
-              style="font-size: 36px; color: rgb(255, 255, 255)"
-              v-show="!pause"
+              @click="playpause"
             ></div>
           </a>
           <!-- 暂停/播放 -->
 
           <!-- 后一首 -->
-          <a class="next">
+          <a class="next" @click="next">
             <div
               class="iconfont icon-prev"
               style="font-size: 25px; color: rgb(192, 192, 192)"
             ></div>
           </a>
           <!-- 后一首 -->
-          
         </div>
         <!-- 播放按钮 -->
 
@@ -49,33 +45,45 @@
         <div class="song">
           <!-- 歌曲头像 -->
           <div class="songimg">
-            <img class="songimg1" src="http://p1.music.126.net/KTo5oSxH3CPA5PBTeFKDyA==/109951164581432409.jpg" alt="">
+            <img class="songimg1" :src="songpicurl" alt="" />
+            <div class="beijing"></div>
           </div>
           <!-- 歌曲信息 -->
           <div class="songdetail">
-            <span class="songname">别勉强</span>
-            <span class="songer">邓紫棋</span>
-            <el-progress style="margin-top:5px"  :stroke-width="8" color="rgb(199,12,12)" :percentage="50" ></el-progress>
+            <span class="songname">{{ songname }}</span>
+            <span class="songer" v-for="item in songer" :key="item">{{
+              item
+            }}</span>
+
+            <div class="block">
+              <el-slider v-model="value" :show-tooltip="false"></el-slider>
+            </div>
           </div>
           <!-- 歌曲时间 -->
           <div class="songtime">
-            <div class="starttime">00:00/ </div>
-            <div class="endtime"> 04:00</div>
+            <div class="starttime">00:00/</div>
+            <div class="endtime">04:00</div>
           </div>
         </div>
         <!-- 歌曲 -->
-
+        <audio :src="storemusicurl" ref="audio" autoplay="autoplay"></audio>
         <!-- 其他按钮 -->
         <div class="otherclick">
-          <div class="iconfont icon-yinliang" style="font-size: 20px; color: rgb(255, 255, 255)"></div>
+          <div
+            class="iconfont icon-yinliang"
+            style="font-size: 18px; color: rgb(255, 255, 255);position: relative;"
+            @click="volumecontrol"
+          ></div>
+          <div class="block1" v-show="volumeshow">
+            <el-slider v-model="value1" vertical height="80px" :show-tooltip="false"> </el-slider>
+          </div>
         </div>
         <!-- 其他按钮 -->
-
       </div>
       <!-- 播放器 -->
 
       <!-- 固定器 -->
-      <div class="right"></div>
+      <div class="right" style="color: red"></div>
       <!-- 固定器 -->
     </div>
   </div>
@@ -87,19 +95,115 @@ export default {
   data() {
     return {
       pause: true,
+      musicurl: "",
+      value: 0,
+      value1: 50,
+      volumeshow: false
     };
   },
   methods: {
-    // puash() {
-    //   this.$refs.audio.pause()  audio.play();
-    // },
+    //暂停/播放方法
+    playpause() {
+      if (this.pause) {
+        if (this.musicurl == "") {
+          this.$message.error("没有音乐播放");
+          this.pause = false;
+        } else {
+          this.$refs.audio.play();
+        }
+      } else {
+        this.$refs.audio.pause();
+      }
+    },
+    prv() {
+      const id = this.$store.state.musicparms[0].id;
+      const i = this.$store.state.duomusicparms.findIndex((v) => v.id === id);
+      if (i == 0) {
+        this.$message.error("暂无上一首");
+      } else {
+        this.$store.commit("prvmusic", this.$store.state.duomusicparms[i - 1]);
+      }
+    },
+    next() {
+      const id = this.$store.state.musicparms[0].id;
+      const i = this.$store.state.duomusicparms.findIndex((v) => v.id === id);
+      const length = this.$store.state.duomusicparms.length;
+      console.log(length);
+      if (i == length - 1) {
+        this.$message.error("暂无下一首");
+      } else {
+        this.$store.commit("nextmusic", this.$store.state.duomusicparms[i + 1]);
+      }
+      // if(i==0){
+      //     this.$message.error("暂无下一首");
+      // }else{
+      //   this.$store.commit('nextmusic',this.$store.state.duomusicparms[i])
+      // }
+    },
+    // this.$refs.audio.puash()
+    // if(this.musicurl==''){
+    //
+    // }else{
+    //
+    // }
 
     //设置播放暂停图标
-    bfclick(){
-      this.pause = !this.pause
+    bfclick() {
+      this.pause = !this.pause;
+    },
+    volumecontrol(){
+      this.volumeshow = !this.volumeshow
+    },
+    startvolume () {
+      this.$refs.audio.volume = (this.value1)/100
     }
-
   },
+  computed: {
+    songpicurl() {
+      if (this.$store.state.musicparms.length == 0) {
+        return require("../../assets/img/nomusic.png");
+      } else {
+        return this.$store.state.musicparms[0].picUrl;
+      }
+    },
+    songer() {
+      if (this.$store.state.musicparms.length == 0) {
+        return "";
+      } else {
+        return this.$store.state.musicparms[0].songer;
+      }
+    },
+    songname() {
+      if (this.$store.state.musicparms.length == 0) {
+        return "";
+      } else {
+        return this.$store.state.musicparms[0].name;
+      }
+    },
+    storemusicurl() {
+      if (this.$store.state.musicparms.length == 0) {
+        return "";
+      } else {
+        return (this.musicurl = this.$store.state.musicparms[0].url);
+      }
+    },
+  },
+  // 监听musicurl有没有数据播放按钮变化
+  watch: {
+    musicurl(newv, oldv) {
+      if (newv) {
+        this.pause = false;
+      } else {
+        this.pause = true;
+      }
+    },
+    value1(newv) {
+      this.$refs.audio.volume = (newv)/100
+    }
+  },
+  mounted(){
+    this.startvolume()
+  }
 };
 </script>
 
@@ -108,8 +212,8 @@ export default {
   width: 100%;
   height: 50px;
   display: flex;
-  background-color: rgb(42, 42, 42);
   padding: 5px 0;
+  background-image: linear-gradient(to right, rgb(46, 46, 46), rgb(48, 48, 48));
   box-shadow: 1px 0 3px rgb(34, 33, 33);
   .left {
     flex: 2;
@@ -128,49 +232,51 @@ export default {
       justify-content: space-around;
     }
     .song {
-      flex:5;
+      flex: 5;
       display: flex;
       justify-content: center;
-      .songimg{
+      .songimg {
         text-align: center;
         flex: 1;
-        .songimg1{
+        position: relative;
+        .songimg1 {
           border-radius: 50%;
           width: 45px;
           height: 45px;
           margin: 2.5px 0;
         }
       }
-      .songdetail{
+      .songdetail {
         flex: 5;
         color: #fff;
         margin-top: 5px;
         font-size: 14px;
-        .songname{
-          color: rgb(222,222,222);
+        .songname {
+          color: rgb(222, 222, 222);
           margin-right: 5px;
         }
-        .songer{
-          color: rgb(132,132,132);
+        .songer {
+          color: rgb(132, 132, 132);
         }
       }
-      .songtime{
+      .songtime {
         flex: 1;
         display: flex;
         align-items: flex-end;
-        margin-bottom: 5px;
-        .starttime{
-          color: rgb(161,161,161);
+        margin-bottom: 2px;
+        margin-left: 15px;
+        .starttime {
+          color: rgb(161, 161, 161);
         }
-        .endtime{
-          color: rgb(161,161,161);
+        .endtime {
+          color: rgb(161, 161, 161);
         }
       }
     }
     .otherclick {
-      align-self: flex-end;
-      margin-bottom: 5px;
+      margin-top: 20px;
       flex: 1;
+      margin-left: 15px;
     }
   }
 
@@ -179,7 +285,42 @@ export default {
     height: 50px;
   }
 }
-/deep/ .el-progress__text{
-  display: none;
+/deep/ .el-slider {
+  position: relative;
+  top: -2px;
+}
+/deep/.el-slider__runway {
+  background-color: rgb(25, 25, 25);
+}
+/deep/ .el-slider__bar {
+  background-color: rgb(199, 12, 12);
+}
+/deep/ .el-slider__button {
+  width: 6px;
+  height: 6px;
+  border-color: white;
+  background-color: white;
+}
+.beijing {
+  width: 0px;
+  height: 0px;
+  border-top: 22px solid white;
+  border-left: 22px solid white;
+  border-right: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  position: absolute;
+  border-radius: 50%;
+  top: 3px;
+  left: 30px;
+  opacity: 0.2;
+}
+.block1{
+  /deep/ .el-slider{
+    position: absolute;
+    top: -100px;
+    right: 542px;
+    background-color: rgba(40, 40, 40, 0.9);
+    padding: 10px 0;
+  }
 }
 </style>

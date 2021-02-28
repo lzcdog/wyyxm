@@ -113,7 +113,7 @@
                       <div class="beijing2"></div>
                       <div class="cd"></div>
                     </div>
-                    <a href="" style="font-size: 12px" class="songname">{{
+                    <a  style="font-size: 12px" class="songname">{{
                       item.name
                     }}</a>
                     <p style="font-size: 12px; color: #666" class="songername">
@@ -140,7 +140,7 @@
                       <div class="beijing2"></div>
                       <div class="cd"></div>
                     </div>
-                    <a href="" style="font-size: 12px" class="songname">{{
+                    <a  style="font-size: 12px" class="songname">{{
                       item.name
                     }}</a>
                     <p style="font-size: 12px; color: #666" class="songername">
@@ -194,12 +194,12 @@
                 <div class="contenttext">
                   <div style="margin-bottom: 5px; font-size: 15px">飙升榜</div>
                   <a
-                    href=""
+                    
                     class="iconfont icon-bo_fang"
                     style="color: #999; font-size: 22px; margin-right: 10px"
                   ></a>
                   <a
-                    href=""
+                    
                     class="iconfont icon-shoucang"
                     style="color: #999; font-size: 22px"
                   ></a>
@@ -211,6 +211,7 @@
                     class="contentli"
                     v-for="(item, index) in updata"
                     :key="index"
+                    @click="bangdanclick({id:item.id,songer:item.ar,song:item.al})"
                   >
                     <div
                       class="num"
@@ -226,7 +227,7 @@
                       {{ index + 1 }}
                     </div>
                     <a
-                      href=""
+                      
                       class="zi"
                       style="font-size: 12px; color: black"
                       >{{ item.name }}</a
@@ -265,12 +266,12 @@
                 <div class="contenttext">
                   <div style="margin-bottom: 5px; font-size: 15px">新歌榜</div>
                   <a
-                    href=""
+                    
                     class="iconfont icon-bo_fang"
                     style="color: #999; font-size: 22px; margin-right: 10px"
                   ></a>
                   <a
-                    href=""
+                    
                     class="iconfont icon-shoucang"
                     style="color: #999; font-size: 22px"
                   ></a>
@@ -282,6 +283,7 @@
                     class="contentli"
                     v-for="(item, index) in newdata"
                     :key="index"
+                    @click="bangdanclick({id:item.id,songer:item.ar,song:item.al})"
                   >
                     <div
                       class="num"
@@ -297,7 +299,7 @@
                       {{ index + 1 }}
                     </div>
                     <a
-                      href=""
+                      
                       class="zi"
                       style="font-size: 12px; color: black"
                       >{{ item.name }}</a
@@ -336,12 +338,12 @@
                 <div class="contenttext">
                   <div style="margin-bottom: 5px; font-size: 15px">原创榜</div>
                   <a
-                    href=""
+                    
                     class="iconfont icon-bo_fang"
                     style="color: #999; font-size: 22px; margin-right: 10px"
                   ></a>
                   <a
-                    href=""
+                    
                     class="iconfont icon-shoucang"
                     style="color: #999; font-size: 22px"
                   ></a>
@@ -353,6 +355,7 @@
                     class="contentli"
                     v-for="(item, index) in originaldata"
                     :key="index"
+                    @click="bangdanclick({id:item.id,songer:item.ar,song:item.al})"
                   >
                     <div
                       class="num"
@@ -368,7 +371,7 @@
                       {{ index + 1 }}
                     </div>
                     <a
-                      href=""
+                      
                       class="zi"
                       style="font-size: 12px; color: black"
                       >{{ item.name }}</a
@@ -478,7 +481,7 @@ export default {
   methods: {
     zuo() {
       if (this.left[0] == 0 && this.left[1] == 645) {
-        alert("暂无专辑");
+          this.$message.error("暂无其他专辑");
       } else {
         let one = 0;
         let two = 0;
@@ -497,7 +500,7 @@ export default {
     },
     you() {
       if (this.left[0] == 645 && this.left[1] == 0) {
-        alert("暂无专辑");
+          this.$message.error("暂无其他专辑");
       } else {
         let one = 0;
         let two = 0;
@@ -514,6 +517,22 @@ export default {
         this.disable = false;
       }
     },
+    //点击榜单获取歌曲参数
+    bangdanclick(params){
+      const finalyparams = []
+      const {id} = params//音乐id
+      const {name} = params.song//歌曲名字
+      const {picUrl} = params.song//歌曲图片
+      let songer = params.songer//歌手
+      const songerlength = params.songer.length
+      if(songerlength>1){//判断多少个歌手
+        songer = songer.map(v=>v.name)
+      }else{
+        songer = params.songer[0].name
+      }
+      finalyparams.push({id,name,picUrl,songer})//总的参数
+      this.$store.dispatch('getmusicurl',finalyparams)
+    }
   },
 };
 </script>
