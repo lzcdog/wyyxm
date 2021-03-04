@@ -7,3 +7,27 @@ export const totop1 = {
     window.removeEventListener('scroll', this.cheaktop)
   },
 }
+export const currentTimeformat = {
+  data(){
+    return{
+      time4: 1
+    }
+  },
+  filters: {
+    currentTimeformat(value) {
+      if (value == "00:00") {
+        return "00:00";
+      } else {
+        if (!value) return "";
+        let interval = Math.floor(value);
+
+        let minute = Math.floor(interval / 60)
+          .toString()
+          .padStart(2, "0");
+        let second = (interval % 60).toString().padStart(2, "0");
+        
+        return `${minute}:${second}`;
+      }
+    },
+  }
+}

@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 const state = {
   musicparms:[],
-  duomusicparms:[]
+  duomusicparms:[],
+  finmusicparms:[]
 }
 const store = new Vuex.Store({
   state,

@@ -687,9 +687,9 @@ export default {
         border-bottom: 3px solid rgb(193, 12, 12);
       }
       .listcontent {
-        width: 689px;
         height: 472px;
         margin-top: 20px;
+        justify-content: center;
         display: flex;
         .content1 {
           width: 230px;

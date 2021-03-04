@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "15369",
+      "name": "右三角形",
+      "font_class": "yousanjiaoxing",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "1440893",
+      "name": "回收站",
+      "font_class": "huishouzhan",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "6536053",
+      "name": "文件-播放列表",
+      "font_class": "wj-bflb",
+      "unicode": "e724",
+      "unicode_decimal": 59172
+    },
+    {
+      "icon_id": "7822261",
+      "name": "静音",
+      "font_class": "jingyin1",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
       "icon_id": "3901364",
       "name": "警察",
       "font_class": "jingcha",

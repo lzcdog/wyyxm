@@ -5,3 +5,9 @@ export function musicurl(data){
     params:data
   })
 }
+export function lyric1(data){
+  return request({
+    url:"/lyric",
+    params: data
+  })
+}

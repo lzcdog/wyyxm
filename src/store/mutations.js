@@ -20,5 +20,19 @@ export default{
   nextmusic(state,nextmusicparams){
     state.musicparms.splice(0,1,nextmusicparams) 
     return state.musicparms
+  },
+  getduration(state,duration){
+    state.musicparms[0].duration = duration
+    state.musicparms[0].playshow = true
+    let index = state.finmusicparms.findIndex(v=>v.id == state.musicparms[0].id)
+    if((state.finmusicparms).length==0){
+      state.finmusicparms.push(...state.musicparms)
+    }else{
+      if(index==-1){
+        state.finmusicparms.map(v=>v.playshow=false)
+        state.finmusicparms.push(...state.musicparms)
+      }
+    }
+    return state.finmusicparms
   }
 }
