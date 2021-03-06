@@ -1,16 +1,22 @@
 <template>
   <div>
     <div class="box">
-      <div class="blur" :style=" {backgroundImage: 'url(' + songPicurl + ')'}"></div>
+      <div
+        class="blur"
+        :style="{ backgroundImage: 'url(' + songPicurl + ')' }"
+      ></div>
       <div class="title">
         <div class="title1">
           <a class="title1text">播放列表({{ songerlength }})</a>
-          <a class="title1text" style="color: rgb(163, 163, 163)" @click="clearclick"
+          <a
+            class="title1text"
+            style="color: rgb(163, 163, 163)"
+            @click="clearclick"
             ><i class="iconfont icon-huishouzhan" style="font-size: 16px"> </i
             >清除</a
           >
         </div>
-        <div class="title2">{{songname}}</div>
+        <div class="title2">{{ songname }}</div>
       </div>
       <div class="content">
         <div class="content1">
@@ -18,8 +24,10 @@
             <li
               class="gqlb"
               :style="{
-                'background-color': item.playshow ? 'rgba(0, 0, 0, 0.5)' : 'rgba(58, 57, 55, 0.1)',
-                'color': item.playshow ? ' white' : '#9b9b9b'
+                'background-color': item.playshow
+                  ? 'rgba(0, 0, 0, 0.5)'
+                  : 'rgba(58, 57, 55, 0.1)',
+                color: item.playshow ? ' white' : '#9b9b9b',
               }"
               v-for="(item, index) in songli"
               :key="index"
@@ -30,7 +38,11 @@
                 v-show="item.playshow"
                 style="font-size: 15px; margin-left: 5px"
               ></a>
-              <a class="song1" :style="{'margin-left' : item.playshow ? '0px' : '20px'}">{{ item.name }}</a>
+              <a
+                class="song1"
+                :style="{ 'margin-left': item.playshow ? '0px' : '20px' }"
+                >{{ item.name }}</a
+              >
               <a class="song2">{{ item.songer | finsonger }}</a>
               <a class="song3">{{ item.duration | currentTimeformat }}</a>
             </li>
@@ -42,9 +54,20 @@
             </li> -->
           </ul>
         </div>
-        <div class="content2">
-          <p v-for="(item,index) in songlyric" :key="index" :style="{'color' : item.lyricshow ? 'white' :' black'}">
-            {{item.lyric}}
+        <div class="content2" ref="scroll1">
+          <p
+            v-for="(item, index) in songlyric"
+            :key="index"
+            :style="{
+              color: index == timeindex ? 'white' : ' #989898',
+              'font-size': index == timeindex ? '16px' : '12px',
+              transition: item.lyricshow
+                ? 'all 0.7s linear'
+                : 'all 0.7s  linear',
+            }"
+          >
+            
+            {{ item }}
           </p>
         </div>
       </div>
@@ -61,13 +84,15 @@ export default {
   props: {
     musicurl: "",
     currentTime: {
-      type:Number,
-      default : 0
-    }
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
       songli: this.$store.state.finmusicparms,
+      scrollnum: 0,
+      timeindex: -1,
     };
   },
   mounted() {},
@@ -96,103 +121,88 @@ export default {
         return this.$store.state.finmusicparms.length;
       }
     },
-    songPicurl(){
+    songPicurl() {
       if (this.$store.state.musicparms.length == 0) {
-        return '';
+        return "";
       } else {
         return this.$store.state.musicparms[0].picUrl;
       }
     },
-    songname(){
+    songname() {
       if (this.$store.state.musicparms.length == 0) {
-        return '';
+        return "";
       } else {
         return this.$store.state.musicparms[0].name;
       }
     },
-    songlyric(){
+    songlyric() {
       if (this.$store.state.musicparms.length == 0) {
-        return '';
+        return "";
       } else {
-        let interval = Math.floor(this.currentTime);
-        let minute = Math.floor(interval / 60)
-          .toString()
-          .padStart(2, "0");
-        let second = (interval % 60).toString().padStart(2, "0");
-        let dd =`${minute}:${second}`
-        for(let i = 0;i<(this.$store.state.musicparms[0].lyric).length;i++){
-          if(this.$store.state.musicparms[0].lyric[i].lyric==dd){
-            console.log(1);
-            return this.$store.state.musicparms[0].lyric[i].lyricshow = true
-          }else{
-          //   console.log(2);
-          //   return this.$store.state.musicparms[0].lyric[i].lyricshow = false
-          // }
-          console.log(this.$store.state.musicparms[0].lyric[i].lyricshow);
-        }}
         return this.$store.state.musicparms[0].lyric;
       }
     },
-    // songer(){
-    //   if(this.$store.state.musicparms.length == 0){
-    //     return ''
-    //   }else{
-    //     return this.$store.state.duomusicparms[0].songer
-    //   }
-    // },
-    // songname(){
-    //   if(this.$store.state.musicparms.length == 0){
-    //     return ''
-    //   }else{
-    //     return this.$store.state.duomusicparms[0].name
-    //   }
-    // },
-    // duration(){
-    //   if(this.$store.state.musicparms.length == 0){
-    //     return  ""
-    //   }else{
-    //     return  this.$store.state.duomusicparms[0].duration
-    //   }
-    // }
   },
-  methods:{
-    songchange(index){
-      this.$store.state.musicparms.splice(0,1,this.$store.state.finmusicparms[index])
-      let index1 = this.$store.state.finmusicparms.findIndex(v=>v.id == this.$store.state.musicparms[0].id)
-      for(let i = 0;i<(this.$store.state.finmusicparms).length;i++){
-        if(index1 == i){
-          this.$store.state.finmusicparms[i].playshow = true 
-        }else{
-          this.$store.state.finmusicparms[i].playshow = false 
+  methods: {
+    songchange(index) {
+      this.$refs.scroll1.scrollTop = 0;
+      this.scrollnum = 0;
+      this.$store.state.musicparms.splice(
+        0,
+        1,
+        this.$store.state.finmusicparms[index]
+      );
+      let index1 = this.$store.state.finmusicparms.findIndex(
+        (v) => v.id == this.$store.state.musicparms[0].id
+      );
+      for (let i = 0; i < this.$store.state.finmusicparms.length; i++) {
+        if (index1 == i) {
+          this.$store.state.finmusicparms[i].playshow = true;
+        } else {
+          this.$store.state.finmusicparms[i].playshow = false;
         }
       }
       // this.$store.state.finmusicparms.filters(v=>v.id == this.$store.state.musicparms[0].id)
     },
-    clearclick(){
-      let length = (this.$store.state.finmusicparms).length
-      if(length==0){
+    clearclick() {
+      let length = this.$store.state.finmusicparms.length;
+      if (length == 0) {
         this.$message.error("没有播放歌曲");
-      }else{
-      this.$store.state.finmusicparms.splice(0,length);
-      this.$store.state.musicparms.splice(0,1)
-      this.$message.success("已清空播放列表");
-      this.$emit('cleartime')
+      } else {
+        this.$store.state.finmusicparms.splice(0, length);
+        this.$store.state.musicparms.splice(0, 1);
+        this.$message.success("已清空播放列表");
+        this.$emit("cleartime");
       }
     },
   },
 
-  watch:{
-    musicurl(newv,oldv){
-      let index = this.$store.state.finmusicparms.findIndex(v=>v.url == newv)
-        for(let ii = 0;ii<(this.$store.state.finmusicparms).length;ii++){
-        if(index == ii){
-          this.$store.state.finmusicparms[ii].playshow = true 
-        }else{
-          this.$store.state.finmusicparms[ii].playshow = false 
+  watch: {
+    musicurl(newv, oldv) {
+      let index = this.$store.state.finmusicparms.findIndex(
+        (v) => v.url == newv
+      );
+      for (let ii = 0; ii < this.$store.state.finmusicparms.length; ii++) {
+        if (index == ii) {
+          this.$store.state.finmusicparms[ii].playshow = true;
+        } else {
+          this.$store.state.finmusicparms[ii].playshow = false;
         }
       }
+    },
+    currentTime(newv) {
+      if (newv >= this.$store.state.musicparms[0].time[this.timeindex + 1]) {
+        this.timeindex += 1;
+        this.scrollnum += 56;
+        let scrollTop1 = 36;
+        if (this.scrollnum >= 280) {
+          this.$refs.scroll1.scrollTop += scrollTop1;
+        }else {
+          this.$refs.scroll1.scrollTop = 0;
+        }
       }
-    }
+    },
+  },
 };
 </script>
 
@@ -201,7 +211,11 @@ export default {
   width: 6px;
   height: 200px;
 }
-
+.scroll {
+  width: 70%;
+  margin: 0 auto;
+  // height: 219px  !important;
+}
 /*滚动条滑块*/
 .content1::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
@@ -223,11 +237,16 @@ export default {
 /*滚动条滑块*/
 .content2::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
+
   border-radius: 10px;
   background: rgb(64, 64, 64);
 }
-
-
+/*滚动条轨道*/
+.content2::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  border-radius: 10px;
+  background: rgb(16, 16, 11);
+}
 ul li {
   list-style: none;
 }
@@ -315,11 +334,10 @@ ul li {
         .song1 {
           flex: 5;
           margin-left: 5px;
-          
         }
         .song2 {
           flex: 1;
-          
+
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -327,7 +345,6 @@ ul li {
         }
         .song3 {
           flex: 1;
-          
         }
       }
     }
@@ -338,7 +355,7 @@ ul li {
       border-top: 1px solid rgb(31, 30, 30);
       text-align: center;
       overflow: scroll;
-      p{
+      p {
         color: #9b9b9b;
         font-size: 16px;
         margin: 20px 0;

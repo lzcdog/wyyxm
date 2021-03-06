@@ -3,7 +3,6 @@
 export default{
   //把action传来的数据返回到state
   pushmusic(state,finalyparams){
-    console.log(finalyparams);
     state.musicparms = finalyparams
     const i = state.duomusicparms.findIndex(v=>v.id === finalyparams[0].id)
     if(i!=-1){

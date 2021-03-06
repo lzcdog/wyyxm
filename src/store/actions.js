@@ -16,17 +16,15 @@ export default {
     for(let i=1;i<(finlyrictime).length;i++){
       if(i%2==0){
         
-        
-          let ie ={
-            lyricshow:false,
-            lyric: finlyrictime[i]
-          }
+          lyric.push(finlyrictime[i])
           
-          lyric.push(ie )
-        
       }else{
-        let fintime = finlyrictime[i].split('.')
-        time.push(fintime[0])
+        let resTime2=finlyrictime[i].split(':');
+        let min=parseInt(resTime2[0])*60;
+        let sec=parseFloat(resTime2[1]);
+        let time1=parseFloat(Number(min+sec).toFixed(2));//toFixed返回值是String
+        // let o = finlyrictime[i].split(":")[0] * 60 + parseFloat(t.split(":")[1]).toFixed(3)
+        time.push(time1)
       }
     }
     // songtime1.forEach(v => {
