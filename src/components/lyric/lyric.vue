@@ -60,13 +60,11 @@
             :key="index"
             :style="{
               color: index == timeindex ? 'white' : ' #989898',
-              'font-size': index == timeindex ? '16px' : '12px',
               transition: item.lyricshow
                 ? 'all 0.7s linear'
                 : 'all 0.7s  linear',
             }"
           >
-            
             {{ item }}
           </p>
         </div>
@@ -87,15 +85,26 @@ export default {
       type: Number,
       default: 0,
     },
+    change: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
       songli: this.$store.state.finmusicparms,
-      scrollnum: 0,
       timeindex: -1,
+      height: 0,
+      oldv1: 0,
+      newv1: 0,
     };
   },
-  mounted() {},
+  mounted() {
+    this.bbus.$on("lyrictop", () => {
+      this.scrollnum = 0;
+      this.timeindex = -1;
+    });
+  },
   filters: {
     finsonger(songer) {
       let finsonger = "";
@@ -146,7 +155,7 @@ export default {
   methods: {
     songchange(index) {
       this.$refs.scroll1.scrollTop = 0;
-      this.scrollnum = 0;
+      this.timeindex = 0;
       this.$store.state.musicparms.splice(
         0,
         1,
@@ -175,10 +184,31 @@ export default {
         this.$emit("cleartime");
       }
     },
+    find(dd) {
+      let dd1 = this.$store.state.musicparms[0].time.map((v) => {
+        return parseInt(v);
+      });
+      let index = 0;
+      let lasttime = (this.$store.state.musicparms[0].time).length
+      if (dd >= this.$store.state.musicparms[0].time[lasttime-1]) {
+        index = (this.$store.state.musicparms[0].time.length);
+        return index
+      } else {
+        let index1 = dd1.findIndex((v) => v == dd);
+        if (index1 == -1) {
+          dd-=1
+          return this.find(dd)
+          
+        } else {
+          return index1
+        }
+      }
+     
+    },
   },
 
   watch: {
-    musicurl(newv, oldv) {
+    musicurl(newv) {
       let index = this.$store.state.finmusicparms.findIndex(
         (v) => v.url == newv
       );
@@ -190,16 +220,33 @@ export default {
         }
       }
     },
-    currentTime(newv) {
+    currentTime(newv, oldv) {
+      // console.log(newv);
+      this.newv1 = newv;
       if (newv >= this.$store.state.musicparms[0].time[this.timeindex + 1]) {
         this.timeindex += 1;
-        this.scrollnum += 56;
-        let scrollTop1 = 36;
-        if (this.scrollnum >= 280) {
-          this.$refs.scroll1.scrollTop += scrollTop1;
-        }else {
+        if (this.timeindex > 3) {
+          // console.log(this.$refs.scroll1.scrollTop);
+
+          this.$refs.scroll1.scrollTop += 41;
+
+          // console.log( 'this.$refs.scroll1.scrollTop'+this.$refs.scroll1.scrollTop);
+        } else {
           this.$refs.scroll1.scrollTop = 0;
         }
+        this.oldv1 = oldv;
+      }
+    },
+    change(newv) {
+      let startindex = this.oldv1;
+      let endindex = this.newv1;
+      let index = this.find(endindex);
+
+      if(endindex<=3 || (endindex<=3 && startindex<=3)){
+        this.$refs.scroll1.scrollTop = 0
+      }else{
+          this.timeindex = index
+          this.$refs.scroll1.scrollTop = (index-3)*41
       }
     },
   },

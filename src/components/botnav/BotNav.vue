@@ -109,7 +109,13 @@
               color: rgb(255, 255, 255);
             "
           ></a>
-          <lyric class="bflb1" v-show="bflbshow" :musicurl="musicurl" @cleartime="cleartime" :currentTime="currentTime"></lyric>
+          <lyric class="bflb1" 
+          v-show="bflbshow" 
+          :musicurl="musicurl"
+          @cleartime="cleartime" 
+          :currentTime="currentTime"
+          :change="change"
+          ></lyric>
           <div class="bflbnum">{{ songlength }}</div>
         </div>
         <!-- 其他按钮 -->
@@ -143,6 +149,7 @@ export default {
       bflbshow: true,
       currentTime: "00:00", //当前时间
       duration: "00:00",
+      change: 0 
     };
   },
   components: {
@@ -162,13 +169,14 @@ export default {
       this.value =
         (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100;
     },
-    //拖到条事件
+    //拖动条事件
     sliderchange(e) {
       this.$refs.audio.currentTime = Math.round(
         (e / 100) * this.$refs.audio.duration
       );
-      this.pause = false;
-      this.$refs.audio.play();
+      this.currentTime =  this.$refs.audio.currentTime
+      this.change+=1
+      this.playshow=true
     },
     //歌曲结束
     ended(){
