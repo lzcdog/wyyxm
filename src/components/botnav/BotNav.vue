@@ -146,9 +146,9 @@ export default {
       value1: 10,
       volumeshow: false,
       muteshow: false,
-      bflbshow: true,
-      currentTime: "00:00", //当前时间
-      duration: "00:00",
+      bflbshow: false,
+      currentTime: 0, //当前时间
+      duration: 0,
       change: 0 
     };
   },
@@ -185,9 +185,10 @@ export default {
       const length = this.$store.state.duomusicparms.length;
       console.log(length);
       if (i == length - 1) {
+        this.pause = true
         this.$message.error("暂无下一首");
         this.value=0
-        this.currentTime= "00:00"
+        this.currentTime= 0
       } else {
         this.$store.commit("nextmusic", this.$store.state.duomusicparms[i + 1]);
       }

@@ -32,7 +32,42 @@
       <div class="czz">创作者中心</div>
 
       <div class="login">
-        <div class="loginname">登录</div>
+        <div class="loginname" @click="loginclick" v-show="!logincheck">登录</div>
+        <div v-show="logincheck" class="avatarUrl">
+          <img :src="avatarUrl" alt=""   style="width:100%;height:100%;border-radius: 50%;">
+          <div class="userstate">
+            <ul style="list-style:none;">
+              <li>
+                <i class="iconfont icon-yonghu"></i>
+                <a href="#"  style="text-decoration: none;color: rgb(204, 204, 204);">我的主页</a>
+              </li>
+              <li>
+                <i class="iconfont icon-xinxi"></i>
+                <a href="#"  style="text-decoration: none;color: rgb(204, 204, 204);">我的信息</a>
+              </li>
+              <li>
+                <i class="iconfont icon-dengji"></i>
+                <a href="#"  style="text-decoration: none;color: rgb(204, 204, 204);">我的等级</a>
+              </li>
+              <li >
+                <i class="iconfont icon-yinlehuiyuan"></i>
+                <a href="#"  style="text-decoration: none;color: rgb(204, 204, 204);">VIP会员</a>
+              </li>
+              <li>
+                <i class="iconfont icon-shezhi"></i>
+                <a href="#"  style="text-decoration: none;color: rgb(204, 204, 204);">个人设置</a>
+              </li>
+              <li >
+                <i class="iconfont icon-renzheng1"></i>
+                <a href="#"  style="text-decoration: none;color: rgb(204, 204, 204);">实名认证</a>
+              </li>
+              <li>
+                <i class="iconfont icon-tuichu"></i>
+                <a href="#"  style="text-decoration: none; color: rgb(204, 204, 204);">退出</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -42,7 +77,8 @@
 
 <script>
 import Triangle from '@/components/subnav/Triangle'
-
+//引入二维码的接口
+import {EwmKey,EwmSc,CheckEwm} from "../../network/login"
 export default {
   name: "NavBarItem",
   components:{
@@ -52,6 +88,9 @@ export default {
     return {
       title: ["发现音乐", "我的音乐", "朋友", "商城", "音乐人", "下载客户端"],
       currindex: 0,
+      key: '',
+      base64: '',
+      status: 0,
     };
   },
   computed: {
@@ -68,6 +107,27 @@ export default {
         //   break;
       }
     },
+    //用户头像url
+    avatarUrl() {
+      if((this.$store.state.user.userinfo).length==0){
+        return ''
+      }else{
+        return this.$store.state.user.userinfo[0].avatarUrl
+      }
+    },
+    //用户登录状态和文字头像切换
+    logincheck() {
+      if((this.$store.state.user.userinfo).length==0){
+        return false
+      }else{
+        return this.$store.state.user.userinfo[0].logincheck
+      }
+    }
+  },
+  mounted(){
+    this.$bus.$on('againgetkey',()=>{
+      this.getewmkey()
+    })
   },
   methods: {
     titleclick(index) {
@@ -82,11 +142,100 @@ export default {
           break;
       }
     },
+    //发送登录界面是否显示
+    loginclick(){
+      this.$bus.$emit('loginshow')
+      //调用接口方法
+      this.getewmkey()
+    },
+    //第一步获取二维码key
+    async getewmkey(){
+      try{
+        this.key = await EwmKey()
+        //第二步获取二维码base64
+        if(this.key){
+          this.getewmbase()
+          this.cheakewm()
+          //发送base64到login页面中
+          
+        }else{
+          this.$message.error('网络波动')
+        }
+      }catch(err) {
+        console.log(err);
+      }
+    },
+    //获取二维码方法
+    async getewmbase(){
+    this.base64 = await EwmSc({
+      key:this.key.data.unikey,
+      qrimg:'qrimg'
+    })
+    this.$bus.$emit('pushbase64',this.base64)
+    },
+    //判断二维码是否过期
+    async cheakewm(){
+    this.status = await CheckEwm({
+      key:this.key.data.unikey,
+    })
+    if(this.status.code==800){
+      // this.getewmkey();
+      //发送二维码失效事件
+      this.$bus.$emit('ewmoverdue')
+    }else{
+      console.log(this.status.code);
+      console.log(this.status);
+    }
+    if(this.status.code == 803){
+      this.$bus.$emit('okback')
+      this.$message({
+          message: '登录成功',
+          type: 'success'
+      });
+    }
+    setTimeout(() => {
+      this.cheakewm()
+    }, 30000);
+    
+  }
   },
 };
 </script>
 
 <style scoped lang="less">
+.avatarUrl{
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+.userstate{
+  width: 160px;
+  height: 240px;
+  background-color: rgb(43, 43, 43);
+  position: absolute;
+  left: -55px;
+  top: 30px;
+  z-index: 8888;
+  opacity: 0;
+
+}
+.userstate ul li{
+  line-height: 33px;
+  text-align: left;
+  margin-left: 30px;
+  font-size: 10px;
+}
+.userstate i{
+  color: rgb(138,138,138);
+  font-size: 18px;
+  margin-right: 10px;
+  vertical-align: middle;
+
+}
+
+.avatarUrl:hover .userstate{
+  opacity: 1;
+}
 .navcenter {
   position: relative;
   display: flex;
@@ -141,7 +290,6 @@ export default {
     flex: 2;
     display: flex;
     height: 70px;
-    line-height: 70px;
     align-items: center;
     text-align: center;
     justify-content: space-between;
@@ -191,7 +339,5 @@ export default {
   border: 1px solid white;
   color: #fff;
 }
-.right .login:hover {
-  color: #fff;
-}
+
 </style>

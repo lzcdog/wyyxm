@@ -5,7 +5,8 @@ export function request(config){
     baseURL: "http://localhost:3000/",
     timeout: 5000
   })
-
+  console.log(config);
+  
   //请求拦截器
   instance.interceptors.request.use(config=>{
     return config
@@ -13,6 +14,7 @@ export function request(config){
     console.log(err);
   })
 
+  
   //响应拦截器
   instance.interceptors.response.use(res=>{
     return res.data

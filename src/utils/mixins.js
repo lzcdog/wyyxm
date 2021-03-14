@@ -15,10 +15,8 @@ export const currentTimeformat = {
   },
   filters: {
     currentTimeformat(value) {
-      if (value == "00:00") {
-        return "00:00";
-      } else {
-        if (!value) return "";
+      
+        if (!value) return "00:00";
         let interval = Math.floor(value);
 
         let minute = Math.floor(interval / 60)
@@ -27,7 +25,7 @@ export const currentTimeformat = {
         let second = (interval % 60).toString().padStart(2, "0");
         
         return `${minute}:${second}`;
-      }
+      
     },
   }
 }

@@ -1,17 +1,21 @@
 <template>
   <div>
     <div class="swiper1">
-      <div class="test">
-        <el-carousel trigger="click" :interval="4000" arrow="always" :autoplay="true">
+  
+      <div class="test" >
+        
+        <el-carousel trigger="click" :interval="4000" arrow="always" :autoplay="true" @change="dddd">
         <el-carousel-item  v-for="(item, index) in swiperdata" :key="index">
           <img :src="item.pic" alt="" class="dd" />
         </el-carousel-item>
       </el-carousel>
       <div class="download">
-        <img src="../../assets/img/download.png" alt="">
+        <img src="../../assets/img/download.png" alt="" class="ddd">
       </div>
       </div>
-      
+      <div class="test1" >
+        <div  class="test2":style="{backgroundImage:'url('+backimg+')'}" style="background-size: cover;"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -25,14 +29,47 @@ export default {
       default: [],
     },
   },
+  data(){
+    return{
+      backimg:''
+    }
+  },
+  watch:{
+    swiperdata(newv){
+      this.backimg = newv[0].pic
+    }
+  },
+  methods:{
+    dddd(e){
+      this.backimg = this.swiperdata[e].pic
+    }
+  }
 };
 </script>
 
 <style scoped lang="less">
+
+.test1{
+  height: 285px;
+  width: 100%;
+  position: absolute;
+  top: 105px;
+  z-index: 1;
+  overflow: hidden;
+  .test2{
+  width: 100%;
+  height: 285px;
+  transform: scale(5);
+  transform-origin:55% 55%;
+    filter: blur(2px);
+  }
+}
 .test{
   display: flex;
   margin: 0 auto;
   justify-content: center;
+  position: relative;
+  z-index: 5;
   height: 285px;
 }
 .swiper1 {

@@ -100,7 +100,7 @@ export default {
     };
   },
   mounted() {
-    this.bbus.$on("lyrictop", () => {
+    this.$bus.$on("lyrictop", () => {
       this.scrollnum = 0;
       this.timeindex = -1;
     });
@@ -203,7 +203,6 @@ export default {
           return index1
         }
       }
-     
     },
   },
 

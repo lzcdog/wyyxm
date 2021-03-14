@@ -532,7 +532,7 @@ export default {
       }
       finalyparams.push({id,name,picUrl,songer})//总的参数
       this.$store.dispatch('getmusicurl',finalyparams)
-      this.bbus.$emit('lyrictop')
+      this.$bus.$emit('lyrictop')
     }
   },
 };
