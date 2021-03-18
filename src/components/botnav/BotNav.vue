@@ -183,7 +183,6 @@ export default {
       const id = this.$store.state.musicparms[0].id;
       const i = this.$store.state.duomusicparms.findIndex((v) => v.id === id);
       const length = this.$store.state.duomusicparms.length;
-      console.log(length);
       if (i == length - 1) {
         this.pause = true
         this.$message.error("暂无下一首");
@@ -227,7 +226,6 @@ export default {
       const id = this.$store.state.musicparms[0].id;
       const i = this.$store.state.duomusicparms.findIndex((v) => v.id === id);
       const length = this.$store.state.duomusicparms.length;
-      console.log(length);
       if (i == length - 1) {
         this.$message.error("暂无下一首");
       } else {
@@ -346,7 +344,7 @@ export default {
       console.log(newv);
     }
   },
-  mounted() {
+  created() {
     this.startvolume();
   },
 };

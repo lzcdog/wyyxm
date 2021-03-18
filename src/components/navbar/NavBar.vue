@@ -31,7 +31,6 @@ export default {
     width: 100%;
     height: 70px;
     background-color: rgb(36, 36, 36);
-    position: relative;
     .center{
       width: 60%;
       height: 70px;

@@ -1,0 +1,217 @@
+<template>
+  <div>
+    <div class="mymusicleft" ref="mymusicleft" :style="height">
+      <div class="content" >
+        <h2>
+          <a href="#" style="padding-left: 40px;">我的歌手(2)</a>
+        </h2>
+        <h2 style="">
+          <a href="#" style="padding-left: 40px;">我的视频(4)</a>
+        </h2>
+        <h2>
+          <a href="#" style="padding-left: 40px;">我的电台(5)</a>
+        </h2>
+        <div>
+          <h2 style="position: relative;">
+          <a href="#" style="padding-left: 40px;">创建的歌单{{playlistcount==0 ? '0' : '('+playlistcount+')'}}</a>
+          <ul class="playlist" v-show="sjxshow">
+            <li class="playlistdetail" v-for="(item,index) in playlistdata" :key="index"  @click="changbc(index)" :style="{'background-color': index == currindex ? 'rgb(230,230,230)' : ''}">
+              <img style="width:40px;height:40px" :src="item.coverImgUrl" alt="">
+                <div class="playlistdetail1">
+                  <div href="#" style="font-size: 12px;font-weight:normal;overflow: hidden;width:120px;text-overflow: ellipsis;white-space: nowrap;" >{{playlistname[index]}}</div>
+                  <div style="color:rgb(153,153,153)">{{item.trackCount}}首</div>
+                </div>
+            </li>
+          </ul>
+          <div class="snajiaoxing1" @click="change" v-show="sjxshow"></div>
+          <div class="snajiaoxing" @click="change" v-show="!sjxshow"></div>
+
+          </h2>
+        </div>
+        </div>
+        
+    </div>
+  </div>
+</template>
+
+<script>
+import {getplaylist} from '../../network/login'
+import {playlistdetail,songdetai} from '../../network/playlist'
+export default {
+  name: 'mymusicleft',
+  data(){
+    return{
+      sjxshow: true,
+      playlistdata: [],
+      currindex: 0,
+      name: [],
+      height: 0,
+      data: {},
+      songdata: []
+    }
+  },
+  created(){
+    this.getplaylistdata()
+  },
+  methods:{
+    change(){
+      console.log(1);
+      this.sjxshow = !this.sjxshow
+    },
+    //获取歌单名字
+    async getplaylistdata (){
+      const {playlist} = await getplaylist({uid:this.$store.state.user.userinfo[0].userId})
+      this.playlistdata = playlist
+      // this.$bus.$emit('loading')
+      // const res = await playlistdetail({id:this.playlistdata[0].id})
+      // console.log(res);
+      // let songid = []
+      // songid = res.playlist.trackIds
+      // const length = songid.length
+      // console.log(length);
+      // for(let i = 0; i<length; i++){
+      //   const data = await songdetai({ids:songid[i].id}) 
+      //   const al = data.songs[0].al
+      //   const ar = data.songs[0].ar
+      //   const name  = data.songs[0].name
+      //   const tns = data.songs[0].tns
+      //   this.songdata.push({al,ar,name,tns})
+
+      // }
+      // this.$bus.$emit('pushsongdata',this.songdata)
+    },
+    async changbc(index) {
+      this.$bus.$emit('loading')
+      this.currindex = index
+      const res = await playlistdetail({id:this.playlistdata[index].id})
+      console.log(res);
+      let res1 = []
+      let songid = []
+      res1.push({playlisttitle:this.name[index],avatarUrl:this.playlistdata[index].creator.avatarUrl,name:this.playlistdata[index].creator.nickname,coverImgUrl:res.playlist.coverImgUrl,createTime:res.playlist.createTime})
+      res.playlist.trackIds.map(v=>songid.push(v.id))
+      this.$bus.$emit('pushplaylisttitle',res1)
+      let songid1 = songid.toString()
+      const res2 = await songdetai({ids:songid1})
+      this.$bus.$emit('pushsongdata',res2.songs)
+      // const length = songid.length
+      
+      
+    },
+    
+
+  },
+  computed:{
+    //歌单数量
+    playlistcount() {
+      return (this.playlistdata).length
+    },
+    playlistname() {
+      this.playlistdata.map(v=>{
+        console.log(this.playlistdata);
+        let regexp = eval('/^'+v.creator.nickname+'/g')
+        let name1 = v.name.split(regexp)
+        if(name1.length == 1){
+          this.name.push(...name1)
+        }else{
+          this.name.push('我' + name1[1])
+        }
+      })
+      console.log(this.name);
+      return this.name
+    }
+  },
+}
+</script>
+
+<style scoped lang="less">
+.mymusicleft::-webkit-scrollbar {
+  width: 0px;
+  height: 100%;
+}
+
+/*滚动条滑块*/
+.mymusicleft::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+
+  border-radius: 10px;
+  background: rgb(236, 236, 236);
+}
+/*滚动条轨道*/
+.mymusicleft::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  border-radius: 10px;
+  background: rgb(249, 249, 249);
+}
+a{
+  text-decoration: none;
+  color: #000;
+  font-size: 15px;
+}
+  
+  .mymusicleft{
+    width: 240px;
+    height: 100%;
+    background-color: rgb(249,249,249);
+    border-left: 1px solid rgb(211,211,211);
+    border-right: 1px solid rgb(211,211,211);
+    overflow: hidden;
+    overflow-y: scroll;
+    position: fixed;
+    top: 0px;
+    z-index: 1;
+    .content{
+      width: 100%;
+      height: 100%;
+      padding: 100px 0 0 0;
+      box-sizing: border-box;
+      h2{
+        padding: 5px 0;
+      }
+      .snajiaoxing{
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid rgb(204,204,204);
+        position: absolute;
+        top: 14px;
+        left: 23px;
+      }
+      .snajiaoxing1{
+        width: 0;
+        height: 0;
+        border-top: 8px solid  rgb(204,204,204);
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid transparent;
+        position: absolute;
+        top: 18px;
+        left: 18px;
+      }
+      .playlist{
+        width: 100%;
+        height: 100%;
+        list-style: none;
+        .playlistdetail{
+          width: 100%;
+          height: 40px;
+          display: flex;
+          margin-top: 7px;
+          padding: 8px 20px;
+          
+          .playlistdetail1{
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+            width: 100%;
+            box-sizing: content-box;
+            justify-content: space-between;
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+  
+</style>

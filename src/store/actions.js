@@ -6,6 +6,7 @@ export default {
     // const index = context.state.musicparms.findIndex(finalyparams)
     // context.state.musicparms = finalyparams
     const res = await musicurl({id:finalyparams[0].id})
+    console.log(res);
     //获取歌词
     let lyrictime = await lyric1({id:finalyparams[0].id})
     lyrictime = lyrictime.lrc.lyric

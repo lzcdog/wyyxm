@@ -17,10 +17,15 @@ export function CheckEwm(data){
   })
 }
 export function login(data){
-  console.log(data);
   return request({
     url: "/login/cellphone",
     method: 'post',
+    params: data
+  })
+}
+export function getplaylist(data){
+  return request({
+    url: "/user/playlist",
     params: data
   })
 }

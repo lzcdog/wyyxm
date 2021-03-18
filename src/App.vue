@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <nav-bar></nav-bar>
+    <nav-bar :class="[actived ? 'fixed':'navbar']" ></nav-bar>
 
     <bot-nav class="botnav"></bot-nav>
     <div :class="{mask:maskshow}">
@@ -28,7 +28,8 @@ export default {
   },
   data(){
     return{
-      maskshow: false
+      maskshow: false,
+      fixed: false
     }
   },
   mounted(){
@@ -43,11 +44,23 @@ export default {
     this.$bus.$on('okback',()=>{
       this.maskshow = false
     })
+    
+    
   },
+  computed:{
+    actived() {
+      let path =this.$route.path;
+      if(path=="/mymusic"){
+      return  true
+      }else{
+      return false
+      }
+    },
+  }
 }
 </script>
 
-<style  lang="less" >
+<style  lang="less"  >
 @import "./assets/css/base.css";
 .botnav{
   position: fixed;
@@ -56,7 +69,17 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 19;
+}
 
+.navbar{
+  z-index: 999;
+}
+.fixed{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  
 }
 .mask{
   width: 100%;

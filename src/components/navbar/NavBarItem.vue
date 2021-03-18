@@ -61,7 +61,7 @@
                 <i class="iconfont icon-renzheng1"></i>
                 <a href="#"  style="text-decoration: none;color: rgb(204, 204, 204);">实名认证</a>
               </li>
-              <li>
+              <li @click="exit">
                 <i class="iconfont icon-tuichu"></i>
                 <a href="#"  style="text-decoration: none; color: rgb(204, 204, 204);">退出</a>
               </li>
@@ -136,6 +136,7 @@ export default {
       switch (index) {
         case 0:
           this.$router.push("/findmusic");
+
           break;
         case 1:
           this.$router.push("/mymusic");
@@ -182,10 +183,11 @@ export default {
       // this.getewmkey();
       //发送二维码失效事件
       this.$bus.$emit('ewmoverdue')
-    }else{
-      console.log(this.status.code);
-      console.log(this.status);
     }
+    // else{
+    //   console.log(this.status.code);
+    //   console.log(this.status);
+    // }
     if(this.status.code == 803){
       this.$bus.$emit('okback')
       this.$message({
@@ -197,7 +199,11 @@ export default {
       this.cheakewm()
     }, 30000);
     
-  }
+    },
+    exit(){
+      this.$store.state.user.userinfo = []
+      this.$message.success('退出成功')
+    }
   },
 };
 </script>
@@ -214,15 +220,15 @@ export default {
   background-color: rgb(43, 43, 43);
   position: absolute;
   left: -55px;
-  top: 30px;
+  top: 31px;
   z-index: 8888;
   opacity: 0;
-
+  box-shadow: 0 0 5px rgb(0 0 0);
 }
 .userstate ul li{
-  line-height: 33px;
+  line-height: 34px;
   text-align: left;
-  margin-left: 30px;
+  padding-left: 30px;
   font-size: 10px;
 }
 .userstate i{
@@ -235,6 +241,9 @@ export default {
 
 .avatarUrl:hover .userstate{
   opacity: 1;
+}
+.userstate ul li:hover{
+  background-color: rgb(53,53,53);
 }
 .navcenter {
   position: relative;

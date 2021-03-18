@@ -196,6 +196,7 @@ export default {
           this.$store.state.user.userinfo.push({userId:res.profile.userId,avatarUrl:res.profile.avatarUrl,logincheck:true})
           this.$bus.$emit('cancleclick'),
           this.modeshow = 1
+          console.log(this.$store.state.user.userinfo);
         }
       }
   }
@@ -207,7 +208,6 @@ export default {
     this.$bus.$on('pushbase64',(base64)=>{
       let base641 = base64.data.qrimg
       this.imgurl=base641
-      console.log(this.imgurl);
     }),
     //二维码失效
     this.$bus.$on('ewmoverdue',()=>{
