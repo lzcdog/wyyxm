@@ -344,7 +344,7 @@ export default {
       console.log(newv);
     }
   },
-  created() {
+  mounted() {
     this.startvolume();
   },
 };

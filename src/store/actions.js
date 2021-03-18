@@ -1,14 +1,28 @@
-import {musicurl} from '@/network/music'
-import { lyric1 } from '../network/music'
+import {musicurl,lyric1,checkmusicok} from '@/network/music'
+
+//引入elmUI组件
+import { Message } from 'element-ui';
+Message.closeAll()
 export default {
   //通过请求获取歌曲url
+
   async getmusicurl(context,finalyparams){
     // const index = context.state.musicparms.findIndex(finalyparams)
     // context.state.musicparms = finalyparams
+    //判断是否有权限
+    await checkmusicok({id:finalyparams[0].id})
+    
     const res = await musicurl({id:finalyparams[0].id})
     console.log(res);
-    //获取歌词
-    let lyrictime = await lyric1({id:finalyparams[0].id})
+    //判断是否未vip音乐
+    if(res.data[0].freeTrialInfo!==null){
+      Message({
+        message: '该音乐为VIP音乐',
+        type: 'warning'
+      },true)
+      return
+    }let lyrictime = await lyric1({id:finalyparams[0].id}) //获取歌词
+    console.log(lyrictime);
     lyrictime = lyrictime.lrc.lyric
     let finlyrictime = lyrictime.split(/[\[\]]/g)
     let lyric = []
@@ -41,4 +55,6 @@ export default {
     // context.state.musicurl = res.data[0].url
     context.commit('pushmusic',finalyparams)
   },
+    
+    
 }

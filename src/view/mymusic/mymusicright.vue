@@ -4,7 +4,7 @@
       <div class="title">
         <div class="playlistname">
           <div class="playlistimg">
-            <img style="width:208px;height:208px" :src="playlistname[0].coverImgUrl" alt="">
+            <img style="width:208px;height:208px" :src="playlistname[0].coverImgUrl" alt="" >
           </div>
 
           <div class="playlistdetail">
@@ -73,7 +73,7 @@
                 </td>
                 <td  >
                   <div style="margin-left:10px">
-                    04:40
+                    {{item.dt}}
                   </div>
                 </td>
                 <td  >
@@ -112,10 +112,9 @@ export default {
       loading: true
     }
   },
-  mounted() {
+  created() {
     this.$bus.$on('pushplaylisttitle',(res1)=>{
         this.playlistname = res1
-        console.log(this.playlistname);
     })
     this.$bus.$on('pushsongdata',(songdata)=>{
         this.loading = false
@@ -146,7 +145,8 @@ export default {
       this.$store.dispatch('getmusicurl',finalyparams)
       this.$bus.$emit('lyrictop')
     }
-  }
+  },
+  
 }
 </script>
 

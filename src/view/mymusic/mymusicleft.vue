@@ -37,6 +37,8 @@
 <script>
 import {getplaylist} from '../../network/login'
 import {playlistdetail,songdetai} from '../../network/playlist'
+import {formatDate} from '../../assets/js/tool'
+
 export default {
   name: 'mymusicleft',
   data(){
@@ -55,48 +57,51 @@ export default {
   },
   methods:{
     change(){
-      console.log(1);
       this.sjxshow = !this.sjxshow
     },
     //获取歌单名字
     async getplaylistdata (){
       const {playlist} = await getplaylist({uid:this.$store.state.user.userinfo[0].userId})
       this.playlistdata = playlist
-      // this.$bus.$emit('loading')
-      // const res = await playlistdetail({id:this.playlistdata[0].id})
-      // console.log(res);
-      // let songid = []
-      // songid = res.playlist.trackIds
-      // const length = songid.length
-      // console.log(length);
-      // for(let i = 0; i<length; i++){
-      //   const data = await songdetai({ids:songid[i].id}) 
-      //   const al = data.songs[0].al
-      //   const ar = data.songs[0].ar
-      //   const name  = data.songs[0].name
-      //   const tns = data.songs[0].tns
-      //   this.songdata.push({al,ar,name,tns})
-
-      // }
-      // this.$bus.$emit('pushsongdata',this.songdata)
-    },
-    async changbc(index) {
-      this.$bus.$emit('loading')
-      this.currindex = index
+      //created 获取第一个歌单
+      let index = 0
       const res = await playlistdetail({id:this.playlistdata[index].id})
-      console.log(res);
       let res1 = []
       let songid = []
       res1.push({playlisttitle:this.name[index],avatarUrl:this.playlistdata[index].creator.avatarUrl,name:this.playlistdata[index].creator.nickname,coverImgUrl:res.playlist.coverImgUrl,createTime:res.playlist.createTime})
       res.playlist.trackIds.map(v=>songid.push(v.id))
       this.$bus.$emit('pushplaylisttitle',res1)
       let songid1 = songid.toString()
-      const res2 = await songdetai({ids:songid1})
-      this.$bus.$emit('pushsongdata',res2.songs)
+      let res2 = await songdetai({ids:songid1})
+      let res3 = res2.songs.map(v=>{
+        v.dt = formatDate(new Date(v.dt),'mm:ss')
+        return v
+      })
+      this.$bus.$emit('pushsongdata',res3)
+    },
+
+    //发送到right
+    async changbc(index) {
+      this.$bus.$emit('loading')
+      this.currindex = index
+      const res = await playlistdetail({id:this.playlistdata[index].id})
+      let res1 = []
+      let songid = []
+      res1.push({playlisttitle:this.name[index],avatarUrl:this.playlistdata[index].creator.avatarUrl,name:this.playlistdata[index].creator.nickname,coverImgUrl:res.playlist.coverImgUrl,createTime:res.playlist.createTime})
+      res.playlist.trackIds.map(v=>songid.push(v.id))
+      this.$bus.$emit('pushplaylisttitle',res1)
+      let songid1 = songid.toString()
+      let res2 = await songdetai({ids:songid1})
+      let res3 = res2.songs.map(v=>{
+        v.dt = formatDate(new Date(v.dt),'mm:ss')
+        return v
+      })
+      this.$bus.$emit('pushsongdata',res3)
       // const length = songid.length
       
       
     },
+    
     
 
   },
@@ -107,7 +112,6 @@ export default {
     },
     playlistname() {
       this.playlistdata.map(v=>{
-        console.log(this.playlistdata);
         let regexp = eval('/^'+v.creator.nickname+'/g')
         let name1 = v.name.split(regexp)
         if(name1.length == 1){
@@ -116,7 +120,6 @@ export default {
           this.name.push('我' + name1[1])
         }
       })
-      console.log(this.name);
       return this.name
     }
   },

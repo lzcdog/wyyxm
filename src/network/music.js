@@ -11,3 +11,9 @@ export function lyric1(data){
     params: data
   })
 }
+export function checkmusicok(data){
+  return request({
+    url:"/check/music",
+    params: data
+  })
+}
