@@ -125,7 +125,7 @@
 //引入md5加密
 import md5 from 'js-md5';
 //引入登录请求
-import {login} from '../../network/login'
+import {login,userinfoo} from '../../network/login'
 export default {
   name: "login",
   data(){
@@ -193,7 +193,8 @@ export default {
         if(res.code!=200){
           this.$message.error('手机号或密码填写错误')
         }else{
-          this.$store.state.user.userinfo.push({userId:res.profile.userId,avatarUrl:res.profile.avatarUrl,logincheck:true})
+          const userinfo = await userinfoo({uid:res.profile.userId})
+          this.$store.state.user.userinfo.push({username:userinfo.profile.nickname,VIPtype:userinfo.profile.vipType,lv:userinfo.level,userId:res.profile.userId,avatarUrl:res.profile.avatarUrl,logincheck:true})
           this.$bus.$emit('cancleclick'),
           this.modeshow = 1
           console.log(this.$store.state.user.userinfo);

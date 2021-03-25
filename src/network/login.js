@@ -29,3 +29,9 @@ export function getplaylist(data){
     params: data
   })
 }
+export function userinfoo(data){
+  return request({
+    url:"/user/detail",
+    params: data
+  })
+}

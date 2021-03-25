@@ -39,6 +39,10 @@ export default {
         case "/findmusic/Leaderboard":
           this.currindex = 1;
           break;
+        case "/searchjiemian":
+          console.log(9);
+        this.currindex = 8;
+        break;
         // default:
         //   break;
       }
@@ -66,16 +70,14 @@ export default {
   width: 100%;
   background-color: rgb(194, 12, 12);
   .sunnavitem {
-    cursor: pointer;
     margin: 0 auto;
-    width: 40%;
+    width: 41.5%;
     .title1 {
       color: white;
       display: flex;
       font-size: 13px;
       height: 35px;
       align-items: center;
-      justify-content: space-between;
       padding: 0 5px;
     }
     .title2 {
@@ -88,6 +90,8 @@ export default {
       text-align: center;
       border-radius: 20px;
       padding: 0 20px;
+      margin: 0 18px;
+
     }
     .titleitem {
       height: 20px;
@@ -95,6 +99,9 @@ export default {
       text-align: center;
       border-radius: 20px;
       padding: 0 20px;
+      margin: 0 18px;
+      cursor: pointer;
+
     }
   }
 }

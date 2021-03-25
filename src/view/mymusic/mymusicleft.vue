@@ -68,7 +68,8 @@ export default {
       const res = await playlistdetail({id:this.playlistdata[index].id})
       let res1 = []
       let songid = []
-      res1.push({playlisttitle:this.name[index],avatarUrl:this.playlistdata[index].creator.avatarUrl,name:this.playlistdata[index].creator.nickname,coverImgUrl:res.playlist.coverImgUrl,createTime:res.playlist.createTime})
+      const coverImgUrl = res.playlist.coverImgUrl
+      res1.push({playlisttitle:this.name[index],avatarUrl:this.playlistdata[index].creator.avatarUrl,name:this.playlistdata[index].creator.nickname,coverImgUrl:coverImgUrl,createTime:res.playlist.createTime})
       res.playlist.trackIds.map(v=>songid.push(v.id))
       this.$bus.$emit('pushplaylisttitle',res1)
       let songid1 = songid.toString()
@@ -87,7 +88,8 @@ export default {
       const res = await playlistdetail({id:this.playlistdata[index].id})
       let res1 = []
       let songid = []
-      res1.push({playlisttitle:this.name[index],avatarUrl:this.playlistdata[index].creator.avatarUrl,name:this.playlistdata[index].creator.nickname,coverImgUrl:res.playlist.coverImgUrl,createTime:res.playlist.createTime})
+      const coverImgUrl = res.playlist.coverImgUrl
+      res1.push({playlisttitle:this.name[index],avatarUrl:this.playlistdata[index].creator.avatarUrl,name:this.playlistdata[index].creator.nickname,coverImgUrl:coverImgUrl,createTime:res.playlist.createTime})
       res.playlist.trackIds.map(v=>songid.push(v.id))
       this.$bus.$emit('pushplaylisttitle',res1)
       let songid1 = songid.toString()
@@ -98,12 +100,7 @@ export default {
       })
       this.$bus.$emit('pushsongdata',res3)
       // const length = songid.length
-      
-      
     },
-    
-    
-
   },
   computed:{
     //歌单数量

@@ -58,7 +58,7 @@
 
 <script>
 export default {
-  name: "recommendbottom",
+  name: "bottom",
 };
 </script>
 

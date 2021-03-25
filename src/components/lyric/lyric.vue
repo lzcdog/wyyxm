@@ -34,12 +34,17 @@
               @click="songchange(index)"
             >
               <a
-                class="iconfont icon-yousanjiaoxing"
+                class="iconfont icon-yousanjiaoxing "
                 v-show="item.playshow"
-                style="font-size: 15px; margin-left: 5px"
+                style="font-size: 15px; margin-left: 5px;color:red"
               ></a>
               <a
                 class="song1"
+                style="
+                overflow:hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                "
                 :style="{ 'margin-left': item.playshow ? '0px' : '20px' }"
                 >{{ item.name }}</a
               >
@@ -58,10 +63,11 @@
           <p
             v-for="(item, index) in songlyric"
             :key="index"
+            style="height:20px"
             :style="{
               color: index == timeindex ? 'white' : ' #989898',
-              transition: item.lyricshow
-                ? 'all 0.7s linear'
+              transition: transitionshow==false
+                ? 'all 0s linear'
                 : 'all 0.7s  linear',
             }"
           >
@@ -97,6 +103,7 @@ export default {
       height: 0,
       oldv1: 0,
       newv1: 0,
+      transitionshow: false
     };
   },
   mounted() {
@@ -221,15 +228,17 @@ export default {
     },
     currentTime(newv, oldv) {
       // console.log(newv);
-      this.newv1 = newv;
-      if (newv >= this.$store.state.musicparms[0].time[this.timeindex + 1]) {
+      if(this.$store.state.musicparms.length==0){
+        return
+      }this.newv1 = newv;
+      let ddd = this.$store.state.musicparms[0].time
+      if (newv >= ddd[this.timeindex + 1]) {
         this.timeindex += 1;
         if (this.timeindex > 3) {
           // console.log(this.$refs.scroll1.scrollTop);
 
-          this.$refs.scroll1.scrollTop += 41;
+          this.$refs.scroll1.scrollTop += 40;
 
-          // console.log( 'this.$refs.scroll1.scrollTop'+this.$refs.scroll1.scrollTop);
         } else {
           this.$refs.scroll1.scrollTop = 0;
         }
@@ -245,7 +254,7 @@ export default {
         this.$refs.scroll1.scrollTop = 0
       }else{
           this.timeindex = index
-          this.$refs.scroll1.scrollTop = (index-3)*41
+          this.$refs.scroll1.scrollTop = (index-3)*40
       }
     },
   },
@@ -405,6 +414,7 @@ ul li {
         color: #9b9b9b;
         font-size: 16px;
         margin: 20px 0;
+        
       }
     }
   }

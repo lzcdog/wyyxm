@@ -28,7 +28,7 @@
 
     <!-- 底部内容 -->
     <div class="recommendbottom1">
-      <recommendbottom class="recommendbottom2"></recommendbottom>
+      <bottom class="recommendbottom2"></bottom>
     </div>
     <!-- 底部内容 -->
 
@@ -44,7 +44,7 @@
 import swiper from "@/components/swiper/swiper";
 import recommendedleft from "@/view/findmusic/recommended/recommendedleft";
 import recommendedright from "@/view/findmusic/recommended/recommendedright";
-import recommendbottom from "@/view/findmusic/recommended/recommendbottom";
+import bottom from '@/components/bottom/bottom'
 //返回顶部
 import totop from "@/components/totop/totop";
 //混入js
@@ -63,7 +63,7 @@ export default {
     swiper,
     recommendedleft,
     recommendedright,
-    recommendbottom,
+    bottom,
     totop,
   },
   mixins: [totop1],

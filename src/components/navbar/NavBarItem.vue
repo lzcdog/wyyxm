@@ -21,11 +21,12 @@
     <div class="right">
       <div class="search">
         <div class="searchicon">
-          <div class="iconfont icon-search"></div>
+          <div style="margin-left:10px;margin-right:5px" class="iconfont icon-search"></div>
         </div>
 
         <div class="searchinput">
-          <input type="text" placeholder="音乐/视频/电台/用户" />
+          <input  class="searchinput1" type="text" v-model="searchkeyword" placeholder="音乐/视频/电台/用户" @blur="blur" @input="search" @keydown.enter="keydownenter"/>
+          <search1 v-show="searchdetailshow" class="searchdetail" :searchkeyword="searchkeyword" :searchdata="searchdata"></search1>
         </div>
       </div>
 
@@ -77,12 +78,16 @@
 
 <script>
 import Triangle from '@/components/subnav/Triangle'
+import search1 from '@/components/search/search'
 //引入二维码的接口
 import {EwmKey,EwmSc,CheckEwm} from "../../network/login"
+import {search} from '@/network/search'
+import {debounce} from '../../assets/js/tool'
 export default {
   name: "NavBarItem",
   components:{
-    Triangle
+    Triangle,
+    search1
   },
   data() {
     return {
@@ -91,6 +96,9 @@ export default {
       key: '',
       base64: '',
       status: 0,
+      searchkeyword: '',
+      searchdetailshow: false,
+      searchdata: {}
     };
   },
   computed: {
@@ -103,6 +111,9 @@ export default {
         case "/mymusic":
           this.currindex = 1;
           break;
+        case "/searchjiemian":
+        this.currindex = 8;
+        break;
         // default:
         //   break;
       }
@@ -127,6 +138,9 @@ export default {
   mounted(){
     this.$bus.$on('againgetkey',()=>{
       this.getewmkey()
+    }),
+    this.$bus.$on('login1',()=>{
+      this.loginclick()
     })
   },
   methods: {
@@ -200,9 +214,42 @@ export default {
     }, 30000);
     
     },
+    //退出
     exit(){
       this.$store.state.user.userinfo = []
       this.$message.success('退出成功')
+    },
+    //搜索框输入
+    async search() {
+      const p = debounce(this.pushsrarch,200)
+      this.pushsrarch
+      this.searchdetailshow = true
+      p()
+    },
+    //发送搜索
+    async pushsrarch(){
+      const res = await search ({keywords:this.searchkeyword})
+      this.searchdata = res.result
+      console.log(res.result);
+      if(this.searchkeyword=='' && this.searchdata==[]){
+        this.searchdetailshow = false
+      }else{
+        this.searchdetailshow = true
+      }
+    },
+
+    blur() {
+      this.searchdetailshow = false
+    },
+    keydownenter() {
+      if(this.searchkeyword==""){
+        console.log(1);
+        return
+      }
+      this.currindex = 8
+      this.$router.push({path:"/searchjiemian",query:{keyword:this.searchkeyword}})
+      this.searchdetailshow = false
+      this.$bus.$emit('againsearch',this.searchkeyword)
     }
   },
 };
@@ -276,12 +323,14 @@ export default {
     height: 70px;
     line-height: 70px;
     display: flex;
+    margin-right: 50px;
+    margin-left: 20px;
     .title {
       width: 20%;
       height: 70px;
       background-color: rgb(36, 36, 36);
       text-align: center;
-      color: white;
+      color: rgb(204, 204, 204);
       cursor: pointer;
       font-size: 13px;
     }
@@ -291,6 +340,7 @@ export default {
       text-align: center;
     }
     .active {
+      color: white;
       background-color: #000;
     }
   }
@@ -300,7 +350,6 @@ export default {
     display: flex;
     height: 70px;
     align-items: center;
-    text-align: center;
     justify-content: space-between;
     background-color: rgb(36, 36, 36);
 
@@ -310,11 +359,16 @@ export default {
       height: 35px;
       line-height: 35px;
       border-radius: 18px;
-      .searchinput input {
-        overflow: hidden;
-        border: none;
-        outline: medium;
-        margin-right: 6px;
+      .searchinput{
+        width: 158px;
+        position: relative;
+        .searchinput1 {
+          width: 155px;
+          overflow: hidden;
+          border: none;
+          outline: medium;
+          margin-right: 6px;
+        }
       }
     }
     .czz {
@@ -334,7 +388,7 @@ export default {
   .hot {
     position: absolute;
     top: 18%;
-    right: 29%;
+    right: 32%;
     color: white;
     font-size: 0.1em;
     height: 10px;
@@ -348,5 +402,14 @@ export default {
   border: 1px solid white;
   color: #fff;
 }
-
+.searchdetail{
+  width: 240px;
+  background-color: rgb(255,255,255);
+  position: absolute;
+  left: -28px;
+  top: 42px;
+  border-radius: 5px;
+  z-index: 20;
+  box-shadow: 0 0 5px rgb(0 0 0);
+}
 </style>

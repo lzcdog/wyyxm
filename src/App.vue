@@ -7,8 +7,9 @@
     <div :class="{mask:maskshow}">
       <login :class="{login1:maskshow}" v-show="maskshow"></login>
     </div>
-
-    <router-view ></router-view>
+    <keep-alive include="searchjiemian">
+      <router-view ></router-view>
+    </keep-alive>
   </div>
 </template>
 

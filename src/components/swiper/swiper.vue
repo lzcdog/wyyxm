@@ -14,7 +14,7 @@
       </div>
       </div>
       <div class="test1" >
-        <div  class="test2":style="{backgroundImage:'url('+backimg+')'}" style="background-size: cover;"></div>
+        <div  class="test2" :style="{backgroundImage:'url('+backimg+')'}" style="background-size: cover;"></div>
       </div>
     </div>
   </div>
@@ -48,7 +48,10 @@ export default {
 </script>
 
 <style scoped lang="less">
+.ddd{
+  box-shadow: 5px 0px 7px rgba(0,0,0,0.5);
 
+}
 .test1{
   height: 285px;
   width: 100%;
@@ -59,8 +62,8 @@ export default {
   .test2{
   width: 100%;
   height: 285px;
-  transform: scale(5);
-  transform-origin:55% 55%;
+  transform: scale(70);
+  transform-origin:50% 50%;
     filter: blur(2px);
   }
 }
@@ -76,8 +79,7 @@ export default {
   width: 100%;
   background-color:rgb(245,245,245);
 }
-.download{
-}
+
 /deep/.el-carousel {
   width: 730px;
   position: relative;

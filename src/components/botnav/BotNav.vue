@@ -50,8 +50,16 @@
           </div>
           <!-- 歌曲信息 -->
           <div class="songdetail">
-            <span class="songname">{{ songname }}</span>
-            <span class="songer">{{ songer }}</span>
+            <div style="width:80px;
+                overflow:hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display:inline-block;
+                vertical-align: middle;" >
+              <span class="songname" >{{ songname }}</span>
+            </div>
+            
+            <span class="songer" style="">{{ songer }}</span>
 
             <div class="block">
               <el-slider
@@ -110,11 +118,12 @@
             "
           ></a>
           <lyric class="bflb1" 
-          v-show="bflbshow" 
+          :style="{'visibility':bflbshow ? 'visible' : 'hidden'}" 
           :musicurl="musicurl"
           @cleartime="cleartime" 
           :currentTime="currentTime"
           :change="change"
+          ref="lyric"
           ></lyric>
           <div class="bflbnum">{{ songlength }}</div>
         </div>
@@ -267,10 +276,12 @@ export default {
     },
     bflb() {
       this.bflbshow = !this.bflbshow;
+      this.$refs.lyric._data.transitionshow = !this.$refs.lyric._data.transitionshow
+      console.log(this.$refs.lyric._data.transitionshow);
     },
     cleartime() {
-      this.currentTime = ''
-      this.duration = ''
+      this.currentTime = 0
+      this.duration = 0
     }
     // mute(){
     //   console.log(5);
@@ -346,6 +357,11 @@ export default {
   },
   mounted() {
     this.startvolume();
+    this.$bus.$on('allplay',(res)=>{
+      console.log(this.$store.state.duomusicparms);
+      console.log(this.$store.state.finmusicparms);
+
+    })
   },
 };
 </script>

@@ -7,8 +7,16 @@
       <mymusicleft class="mymusicleft"></mymusicleft>
       <mymusicright class="mymusicright"></mymusicright>
     </div>
-    <div v-if="!logincheck">
-      ddd
+    <div v-if="!logincheck" class="ddd">
+      <div class="pic">
+        <div class="pic1">
+          <img src="../../assets/img/nologin.png" alt="" class="img">
+          <div  @click="login" class="hoveimg"></div>
+        </div>
+      </div>
+      <div class="recommendbottom1">
+        <bottom class="recommendbottom2"></bottom>
+      </div>
     </div>
     </div>
     
@@ -19,12 +27,14 @@
 import SunNav from '@/components/subnav/SunNav'
 import mymusicleft from '@/view/mymusic/mymusicleft'
 import mymusicright from '@/view/mymusic/mymusicright'
+import bottom from '@/components/bottom/bottom'
 export default {
   name: "Mymusic",
   components: {
     SunNav,
     mymusicleft,
-    mymusicright
+    mymusicright,
+    bottom
   },
   data(){
     return{
@@ -39,9 +49,6 @@ export default {
   this.$bus.$on('loading',()=>{
       this.loading = true
   })
-  
-  
-  
   },
   computed:{
   logincheck(){
@@ -52,7 +59,12 @@ export default {
     }
   },
   
-},
+  },
+  methods:{
+    login() {
+      this.$bus.$emit('login1')
+    }
+  }
 };
 </script>
 
@@ -85,7 +97,39 @@ export default {
     left: 245px;
     top: 60px;
   }
-  .mymusicleft{
+  .pic1{
+    margin: 0 auto;
+    width: 980px;
+    position: relative;
+    top: 77px;
+    border: 1px solid rgb(211,211,211);
     
+  }
+  .hoveimg{
+    position: absolute;
+    top:305px;
+    left: 568px;
+    width: 167px;
+    height: 45px;
+    background-repeat: no-repeat;
+  }
+  .hoveimg:hover{
+    /* background-image: url("../../assets/img/loginclick.png"); */
+    cursor: pointer;
+  }
+  .recommendbottom1 {
+  position: relative;
+  width: 100%;
+  border-top: 1px solid rgb(211, 211, 211);
+  background-color: rgb(245, 245, 245);
+  margin-top: 55px;
+  padding-bottom: 70px;
+  }
+  .recommendbottom2 {
+    width: 980px;
+    margin: 0 auto;
+  }
+  .ddd{
+    width: 100%;
   }
 </style>

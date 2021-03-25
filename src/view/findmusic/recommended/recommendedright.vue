@@ -2,12 +2,32 @@
   <div>
     <div class="frame2">
       <div class="righthead">
-        <div class="headcontent">
+        <div class="headcontent" v-if="!logincheck">
           <p class="headp">
             登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
           </p>
           <div class="headbutton">
-            <a class="headbutton1">用户登录</a>
+            <a class="headbutton1" @click="login2" style="cursor:pointer">用户登录</a>
+          </div>
+        </div>
+        <div v-if="logincheck" class="userinfo">
+          <div class="userinfo1">
+            <div class="userinfotitle">
+              <img :src="this.$store.state.user.userinfo[0].avatarUrl" alt="" style="vertical-align: text-top;width:80px;height:80px;margin-left:20px;border:1px solid rgb(218,218,218)">
+              <div class="userinfotext" >
+                <div style="margin-top:10px;width:70px;overflow:hidden;text-overflow: ellipsis;
+                  white-space: nowrap;">
+                  <a style="margin-left:15px;font-weight:bold;">{{this.$store.state.user.userinfo[0].username}}</a>
+                </div>
+                <div style="margin-top:10px;margin-left:10px;">
+                  <img style="width:43px;height:16px;" :src="[this.$store.state.user.userinfo[0].VIPtype==0 ? 'https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4357872312/f49a/5cad/ebcd/c1021f3f3e918f6b92b2b2bb58d4719e.png':'https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4357872333/eb74/6e09/3b0f/fd6e21661e1d32e1c52658173ffd42b6.png']" alt="">
+                </div>
+                <div class="lv">
+                  <a><i>LV.{{this.$store.state.user.userinfo[0].lv}}</i></a>
+                </div>
+              </div>
+              
+            </div>
           </div>
         </div>
       </div>
@@ -186,6 +206,20 @@
 <script>
 export default {
   name: "recommendedright",
+  methods: {
+    login2() {
+      this.$bus.$emit('login1')
+    }
+  },
+  computed:{
+  logincheck(){
+    if((this.$store.state.user.userinfo).length == 0){
+      return false
+    }else{
+      return true
+    }
+    }
+  }
 };
 </script>
 
@@ -194,11 +228,10 @@ export default {
   width: 250px;
   height: 1420px;
   background-color: rgb(255, 255, 255);
-  border: 1px solid #d3d3d3;
+  border-right: 1px solid #d3d3d3;
   .righthead {
     width: 250px;
     height: 126px;
-    border: 1px solid rgb(211, 211, 211);
     margin: 0 auto;
     background-image: linear-gradient(rgb(250, 250, 250), rgb(227, 227, 227));
     .headp {
@@ -325,6 +358,41 @@ export default {
   .centertitle2 {
     float: right;
     color: rgb(102, 102, 102);
+  }
+}
+.userinfo{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .userinfo1{
+    width: 100%;
+    height: 80px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-30%);
+    margin: 0 auto;
+  }
+  .userinfotitle{
+    display: flex;
+    position: relative;
+    .userinfotext{
+      display: flex;
+      .lv{
+        width: 35px;
+        height: 15px;
+        border: 1px solid rgb(154, 154, 154);
+        color:rgb(163, 163, 163);
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 12px;
+        text-align: center;
+        align-self: flex-end;
+        position: absolute;
+        left: 115px;
+        top: 40px;
+      }
+    }
   }
 }
 </style>

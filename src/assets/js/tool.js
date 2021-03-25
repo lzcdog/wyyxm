@@ -1,4 +1,10 @@
-
+export function debounce(fn, wait) {
+  let timer;
+  return function () {
+      clearTimeout(timer);
+      timer = setTimeout(fn, wait);
+  }
+}
 export function formatDate(date, fmt) {
   if (/(y+)/.test(fmt)) {
     fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));

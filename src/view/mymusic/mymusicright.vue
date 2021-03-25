@@ -20,7 +20,7 @@
             </div>
             <div class="bf">
               <i class="iconfont icon-bo_fang" style="color: white;font-size:16px;vertical-align: middle;"></i>
-              <a href="#" style="color: white;font-size:12px;"> 播放</a>
+              <a href="#" style="color: white;font-size:12px;" @click="allplay"> 播放</a>
             </div>
           </div>
 
@@ -30,8 +30,8 @@
           <span style="font-size:20px">歌曲列表</span>
           <span style="font-size:12px;margin-left:20px;color:#666666">387首歌</span>
         </div>
-        <div style="font-size:12px;color:#666666">
-          <span>播放：</span>
+        <div style="font-size:12px;color:#666666" >
+          <span >播放：</span>
           <span style="color:red">3165</span>
           <span>次</span>
         </div>
@@ -67,8 +67,13 @@
                   </div>
                 </td>
                 <td >
-                  <div style="margin-left:10px">
+                  <div style="margin-left:10px;width:280px;
+                              overflow:hidden;
+                              text-overflow: ellipsis;
+                              white-space: nowrap;">
                     {{item.name}}
+                  <i v-show="item.mv==0? false:true" class="iconfont icon-MV" style="color:#c20c0c;font-size:20px;vertical-align: middle;margin-left:5px"></i>
+
                   </div>
                 </td>
                 <td  >
@@ -77,8 +82,10 @@
                   </div>
                 </td>
                 <td  >
-                  <div style="margin-left:10px">
-                    {{item.ar[0].name}}
+                  <div style="margin-left:10px;width:80px;overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;">
+                    {{item.ar | finname}}
                   </div>
                 </td>
                 <td  >
@@ -90,6 +97,19 @@
                 </td>
               </tr>
               <div v-show="loading" class="loading">
+                <div class="dianzu">
+                  <div class="dian" style="--i:1"></div>
+                  <div class="dian" style="--i:2"></div>
+                  <div class="dian" style="--i:3"></div>
+                  <div class="dian" style="--i:4"></div>
+                  <div class="dian" style="--i:5"></div>
+                  <div class="dian" style="--i:6"></div>
+                  <div class="dian" style="--i:7"></div>
+                  <div class="dian" style="--i:8"></div>
+                  <div class="dian" style="--i:9"></div>
+                  <div class="dian" style="--i:10"></div>
+                </div>
+
                 <span>
                   加载中
                 </span>
@@ -112,21 +132,40 @@ export default {
       loading: true
     }
   },
+  filters:{
+    finname(e){
+      console.log(e);
+      let finname = ''
+      if(e.length==1){
+        return e[0].name
+      }else{
+        for(let i=0; i<e.length;i++){
+          if(i==e.length-1){
+            finname = finname + e[i].name
+          }else{
+            finname = finname + e[i].name + '/'
+          }
+        }
+        return finname
+      }
+    }
+  },
   created() {
     this.$bus.$on('pushplaylisttitle',(res1)=>{
         this.playlistname = res1
+        console.log(this.playlistname);
+
     })
     this.$bus.$on('pushsongdata',(songdata)=>{
         this.loading = false
         this.songdata = (songdata)
         this.$bus.$emit('test')
+        console.log(this.songdata);
     })
     this.$bus.$on('loading',()=>{
         this.songdata = []
         this.loading = true
     })
-    
-    
   },
   methods:{
     songclick(index) {
@@ -144,6 +183,15 @@ export default {
       finalyparams.push({id,name,picUrl,songer})//总的参数
       this.$store.dispatch('getmusicurl',finalyparams)
       this.$bus.$emit('lyrictop')
+    },
+    //全部播放
+    allplay(){
+      console.log(1);
+      let res = []
+      this.songdata.forEach(v => {
+        res.push({ar:v.ar,id:v.id,name:v.name,dt:v.dt,mv:v.mv})
+      });
+      this.$bus.$emit('allplay',res)
     }
   },
   
@@ -151,14 +199,37 @@ export default {
 </script>
 
 <style scoped lang="less">
+@keyframes dianbian {
+  0%{
+    background-color: rgb(169,169,169);
+  }
+  100%{
+    background-color: red;
+  }
+}
 .loading{
   text-align: center;
   height: 50px;
   line-height: 50px;
   position: relative;
   top: 50px;
-  
   left: 331px;
+  display: flex;
+  align-items: center;
+  .dianzu{
+    width: 20px;
+    height: 20px;
+    .dian{
+      width: 3px;
+      height: 3px;
+      background-color: rgb(169,169,169);
+      position: absolute;
+      transform: rotate(calc(36deg*var(--i)));
+      transform-origin: 0 10px;
+      animation: dianbian 1s infinite ease-in-out;
+      animation-delay: calc(0.05s*var(--i));
+    }
+  }
 }
 /deep/ .el-loading-mask{
   background-color: rgba(0,0,0,0);
