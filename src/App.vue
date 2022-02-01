@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-1234
+    12341212
     <nav-bar :class="[actived ? 'fixed':'navbar']" ></nav-bar>
 
     <bot-nav class="botnav"></bot-nav>
