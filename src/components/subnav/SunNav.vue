@@ -71,14 +71,16 @@ export default {
   background-color: rgb(194, 12, 12);
   .sunnavitem {
     margin: 0 auto;
-    width: 41.5%;
+    width: 800px;
+
     .title1 {
+      width: 800px;
+
       color: white;
       display: flex;
       font-size: 13px;
       height: 35px;
       align-items: center;
-      padding: 0 5px;
     }
     .title2 {
       height: 7px;
@@ -105,42 +107,42 @@ export default {
     }
   }
 }
-@media screen and (max-width: 1835px) {
-  .sunnav {
-    .sunnavitem {
-      width: 55%;
-    }
-  }
-}
-@media screen and (max-width: 1376px) {
-  .sunnav {
-    .sunnavitem {
-      width: 68%;
-    }
-  }
-}
-@media screen and (max-width: 1178px) {
-  .sunnav {
-    width: 100%;
-    .sunnavitem {
-      width: 66%;
-    }
-  }
-}
-@media screen and (max-width: 1083px) {
-  .sunnav {
-    width: 121%;
-    .sunnavitem {
-      width: 68%;
-    }
-  }
-}
-@media screen and (max-width: 877px) {
-  .sunnav {
-    width: 144%;
-    .sunnavitem {
-      width: 68%;
-    }
-  }
-}
+// @media screen and (max-width: 1835px) {
+//   .sunnav {
+//     .sunnavitem {
+//       width: 55%;
+//     }
+//   }
+// }
+// @media screen and (max-width: 1376px) {
+//   .sunnav {
+//     .sunnavitem {
+//       width: 68%;
+//     }
+//   }
+// }
+// @media screen and (max-width: 1178px) {
+//   .sunnav {
+//     width: 100%;
+//     .sunnavitem {
+//       width: 66%;
+//     }
+//   }
+// }
+// @media screen and (max-width: 1083px) {
+//   .sunnav {
+//     width: 121%;
+//     .sunnavitem {
+//       width: 68%;
+//     }
+//   }
+// }
+// @media screen and (max-width: 877px) {
+//   .sunnav {
+//     width: 144%;
+//     .sunnavitem {
+//       width: 68%;
+//     }
+//   }
+// }
 </style>

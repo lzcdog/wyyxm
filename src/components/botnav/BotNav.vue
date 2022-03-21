@@ -45,8 +45,10 @@
         <div class="song">
           <!-- 歌曲头像 -->
           <div class="songimg">
-            <img class="songimg1" :src="songpicurl" alt="" />
-            <div class="beijing"></div>
+            <div class="imgbox">
+              <img class="songimg1" :src="songpicurl" alt="" />
+              <div class="beijing"></div>
+            </div>
           </div>
           <!-- 歌曲信息 -->
           <div class="songdetail">
@@ -86,6 +88,7 @@
         ></audio>
         <!-- 其他按钮 -->
         <div class="otherclick">
+          <div class="yinlianganniu">
           <div class="block1" v-show="volumeshow">
             <el-slider
               v-model="value1"
@@ -106,8 +109,10 @@
             "
             @click="volumecontrol"
           ></a>
+          </div>
+
           <!-- @dblclick="mute" 双击事件 -->
-          
+          <div class="bflbanniu">
           <a
             @click="bflb"
             class="bflb iconfont icon-wj-bflb"
@@ -117,6 +122,9 @@
               color: rgb(255, 255, 255);
             "
           ></a>
+          <div class="bflbnum">{{ songlength }}</div>
+          </div>
+
           <lyric class="bflb1" 
           :style="{'visibility':bflbshow ? 'visible' : 'hidden'}" 
           :musicurl="musicurl"
@@ -125,7 +133,6 @@
           :change="change"
           ref="lyric"
           ></lyric>
-          <div class="bflbnum">{{ songlength }}</div>
         </div>
         <!-- 其他按钮 -->
       </div>
@@ -368,13 +375,14 @@ export default {
 
 <style scoped lang="less">
 .botnav {
+  
   width: 100%;
   height: 50px;
   display: flex;
   padding: 5px 0;
   background-image: linear-gradient(to right, rgb(46, 46, 46), rgb(48, 48, 48));
   box-shadow: 1px 0 3px rgb(34, 33, 33);
-
+  
   .left {
     flex: 2;
     height: 50px;
@@ -399,7 +407,6 @@ export default {
       .songimg {
         text-align: center;
         flex: 1;
-        position: relative;
         .songimg1 {
           border-radius: 50%;
           width: 45px;
@@ -435,6 +442,7 @@ export default {
       }
     }
     .otherclick {
+      display: flex;
       margin-top: 20px;
       flex: 1;
       margin-left: 15px;
@@ -445,6 +453,11 @@ export default {
     flex: 2;
     height: 50px;
   }
+}
+.imgbox{
+  position: relative;
+  width: 45px;
+  height: 45px;
 }
 /deep/ .el-slider {
   position: relative;
@@ -473,14 +486,14 @@ export default {
   position: absolute;
   border-radius: 50%;
   top: 3px;
-  left: 29.5px;
+  left: 0;
   opacity: 0.2;
 }
 .block1 {
   /deep/ .el-slider {
     position: absolute;
-    top: -105px;
-    right: 122px;
+    top: -125px;
+    right: -10px;
     background-color: rgba(40, 40, 40, 0.9);
     padding: 10px 0;
   }
@@ -488,10 +501,11 @@ export default {
 .bflbnum {
   width: 35px;
   height: 18px;
+  line-height: 18px;
   background-color: rgb(34, 34, 34);
   position: absolute;
-  top: 22px;
-  right: 60px;
+  top: 2px;
+  right: -28px;
   z-index: -2;
   border-radius: (20px);
   color: rgb(121, 120, 120);
@@ -504,4 +518,10 @@ export default {
   left: 50%;
   transform: translateX(-50%);
 }
-</style>
+.yinlianganniu {
+  position: relative;
+}
+.bflbanniu {
+  position: relative;
+}
+</style>  

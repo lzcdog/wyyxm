@@ -87,16 +87,16 @@
                   <a href="" class="phonea">+86</a>
                 </div>
                 <div class="phoneinput">
-                  <input v-model="phonenum"   type="text" placeholder="请输入手机号" style="border:none;height:25px;outline:none;padding-left:10px">
+                  <input v-model="phonenum" id="wyyusername"  type="text" placeholder="请输入手机号" style="border:none;height:25px;outline:none;padding-left:10px">
                 </div>
               </div>
               <div class="phonepassword">
-                <input v-model="password" type="password" placeholder="请输入密码" style="width:95%;border:none;height:25px;outline:none;padding-left:10px">
+                <input v-model="password" id="wyypsw" type="password" placeholder="请输入密码" style="width:95%;border:none;height:25px;outline:none;padding-left:10px">
               </div>
               <div class="phoneother" style="font-size:12px;margin-top:10px">
                 <div class="autologin" style="text-algin:center">
-                  <input type="checkbox" id="auto" style="vertical-align:middle">
-                  <label for="auto" style="margin-left:10px;">自动登录</label>
+                  <input type="checkbox" id="auto" style="vertical-align:middle" >
+                  <label for="auto" style="margin-left:10px;">记住账号密码</label>
                 </div>
                 <div class="forword">
                   <span>忘记密码?</span>
@@ -108,7 +108,7 @@
           </div>
           <div class="otherlogin2">
             <div class="otherlogin3" style="margin-left:20px" @click="otherclick">
-              <a href="#" style="text-decoration:none;color:rgb(12,114,195)">< 其他登录方式</a>
+              <a href="#" style="text-decoration:none;color:rgb(12,114,195)"> 其他登录方式</a>
             </div>
             <div class="otherlogin4" style="margin-right:20px" >
               <a href="#" style="text-decoration:none;color:rgb(179,179,179)">没有账号？免费注册 ></a>
@@ -190,20 +190,45 @@ export default {
         let password = md5(this.password)
         let phonenum = this.phonenum
         const res = await login({phone:phonenum,md5_password:password})
+        console.log(res)
         if(res.code!=200){
           this.$message.error('手机号或密码填写错误')
         }else{
-          const userinfo = await userinfoo({uid:res.profile.userId})
+          this.SaveInformation()
+          const userinfo = await userinfoo({uid:res.profile.userId});
           this.$store.state.user.userinfo.push({username:userinfo.profile.nickname,VIPtype:userinfo.profile.vipType,lv:userinfo.level,userId:res.profile.userId,avatarUrl:res.profile.avatarUrl,logincheck:true})
           this.$bus.$emit('cancleclick'),
-          this.modeshow = 1
-          console.log(this.$store.state.user.userinfo);
+          this.modeshow = 1;
+          this.CheckStorage();
         }
       }
-  }
-
-    
-
+    },
+    //保存手机号和密码
+    SaveInformation () {
+      let wyyusername = document.getElementById("wyyusername");
+      let wyypsw = document.getElementById("wyypsw");
+      let auto = document.getElementById("auto");
+      if(auto.checked) {
+        localStorage.setItem("wyyusername",wyyusername.value);
+        localStorage.setItem("wyypsw",wyypsw.value);
+      }else {
+        localStorage.removeItem("wyyusername");
+        localStorage.removeItem("wyypsw");
+      }
+    },
+    //检测本地存储有没有账号密码
+    CheckStorage() {
+      let auto = document.getElementById("auto");
+      console.log(localStorage.getItem("wyyusername"));
+      if(localStorage.getItem("wyyusername") && localStorage.getItem("wyypsw")) {
+        this.phonenum = localStorage.getItem("wyyusername");
+        this.password = localStorage.getItem("wyypsw");
+        auto.checked = true
+      }else{
+        this.phonenum = "";
+        this.password = "";
+      }
+    }
   },
   mounted() {
     this.$bus.$on('pushbase64',(base64)=>{
@@ -213,7 +238,8 @@ export default {
     //二维码失效
     this.$bus.$on('ewmoverdue',()=>{
       this.ewmoverdue = true
-    })
+    }),
+    this.CheckStorage();
   },
 
 }

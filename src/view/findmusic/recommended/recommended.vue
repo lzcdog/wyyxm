@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="dde">
+
     <!-- 轮播图 -->
     <div>
       <swiper class="swiper" :swiperdata="swiperdata" id="swiper"></swiper>
@@ -25,6 +26,7 @@
       <!-- 右边内容 -->
     </div>
     <!-- 中间内容 -->
+    <totop @click.native="totop" ref="totop"></totop>
 
     <!-- 底部内容 -->
     <div class="recommendbottom1">
@@ -32,7 +34,6 @@
     </div>
     <!-- 底部内容 -->
 
-    <totop @click.native="totop" ref="totop"></totop>
 
     
 
@@ -44,6 +45,7 @@
 import swiper from "@/components/swiper/swiper";
 import recommendedleft from "@/view/findmusic/recommended/recommendedleft";
 import recommendedright from "@/view/findmusic/recommended/recommendedright";
+import {playlistdetail} from '../../../network/playlist'
 import bottom from '@/components/bottom/bottom'
 //返回顶部
 import totop from "@/components/totop/totop";
@@ -54,7 +56,6 @@ import {
   reqswiperdata,
   hotrecommend,
   newshelves,
-  listdata,
 } from "../../../network/findmusic";
 export default {
   name: "Recommended",
@@ -100,15 +101,15 @@ export default {
     },
     //定义榜单数据
     async getlistdata() {
-      const updata = await listdata({ id: 19723756 });
-      const newdata = await listdata({ id: 3779629 });
-      const originaldata = await listdata({ id: 2884035 });
+      const updata = await playlistdetail({ id: 19723756 });
+      const newdata = await playlistdetail({ id: 3779629 });
+      const originaldata = await playlistdetail({ id: 2884035 });
       this.updata = updata.playlist.tracks.splice(0, 10);
       this.newdata = newdata.playlist.tracks.splice(0, 10);
       this.originaldata = originaldata.playlist.tracks.splice(0, 10);
-      // console.log(this.updata);
-      // console.log(this.newdata);
-      // console.log(this.originaldata);
+      console.log(this.updata);
+      console.log(this.newdata);
+      console.log(this.originaldata);
     },
     //检查高度
     cheaktop() {
@@ -167,5 +168,8 @@ export default {
     height: 115px;
     margin: 0 auto;
   }
+}
+.dde {
+  min-width: 100%;
 }
 </style>
