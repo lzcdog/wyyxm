@@ -119,6 +119,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -324,7 +325,7 @@ a{
     .song{
       width: 100%;
       height: auto;
-      
+      margin-bottom: 70px;
       
     }
   }

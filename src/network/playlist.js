@@ -2,6 +2,7 @@ import {request} from './request'
 export function playlistdetail(data){
   return request({
     url: "/playlist/detail",
+    
     params: data
   })
 }

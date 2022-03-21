@@ -23,17 +23,17 @@
               
                 <i class="iconfont icon-bo_fang" style="vertical-align: middle;color:rgb(179, 179, 179)" :style="{color:index1 == index ? 'rgb(235, 5, 5)' : ''}"></i>
                 <!-- :style="{color: searchdata.toLowerCase() == sss.toLowerCase() || sss.indexOf(searchdata.toLowerCase())!=-1 ? 'blue' :''}" -->
-                <span class="songnamespan">{{item.name}}</span>
+                <span class="songnamespan" >{{item.name}}</span>
                 <i class="iconfont icon-MV" style="vertical-align: middle;color:rgb(184, 11, 12)" v-show="item.mv!=0"></i>
               </div>
               <div class="songer">
                 <span>{{item.ar | songname}}</span>
               </div>
-              <div class="albumname">
+              <div class="albumname" >
                   {{item.al.name | albumname}}
               </div>
               <div class="time">
-                03:25
+                {{item.dt | fintime}}
               </div>
             </li>
           </ul>
@@ -60,6 +60,7 @@
 import SunNav from '@/components/subnav/SunNav'
 import bottom from '@/components/bottom/bottom'
 import {searchlist} from '../../network/search'
+import {formatDate} from '../../assets/js/tool'
 export default {
   name: 'searchjiemian',
   data(){
@@ -122,6 +123,7 @@ export default {
     songname(e) {
       let finname = ''
       if(e.length==1){
+        
         return e[0].name
       }else{
         for(let i=0; i<e.length;i++){
@@ -140,7 +142,10 @@ export default {
       }else{
         return '《'+e+'》'
       }
-    }
+    },
+    fintime(v) {
+      return v = formatDate(new Date(v),'mm:ss')
+    },
   },
   created() {
     this.searchlistdata()
@@ -153,7 +158,16 @@ export default {
   computed:{
     finkeyword() {
       return  this.searchdata = this.$route.query.keyword
-    }
+    },
+    // include() {
+    //   let keyword = this.$route.query.keyword;
+    //   return function(v){
+    //         var Regex = eval('/'+keyword+'/ig');
+    //         console.log(Regex,v);
+    //         return Regex.test(v);
+    //     }
+
+    // }
   },
   methods: {
     //选项切换
@@ -170,11 +184,13 @@ export default {
         index = 1
 
         searchlistdata = await searchlist({keywords:this.$route.query.keyword,type:index,offset:0})
+        console.log(1);
       }else{
-        console.log(keyword);
-        searchlistdata = await searchlist({keywords:keyword,type:index,offset:(this.currpage-1)*30})
+        console.log(index);
+        searchlistdata = await searchlist({keywords:keyword,type:index,offset:Math.abs((this.currpage-1)*30)})
+        console.log(searchlistdata);
       }
-      console.log(searchlistdata);
+      console.log(searchlistdata,index);
       switch (index) {
           //单曲
         case 1:
@@ -220,6 +236,7 @@ export default {
     //点击搜索框图标
     inputsearch() {
       this.searchlistdata(this.searchdata,this.title[this.currindex].id)
+      this.$router.push({path:"/searchjiemian",query:{keyword:this.searchdata}})
     },
     //prev
     numclick(e){

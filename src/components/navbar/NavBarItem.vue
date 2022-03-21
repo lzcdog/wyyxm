@@ -62,7 +62,7 @@
                 <i class="iconfont icon-renzheng1"></i>
                 <a href="#"  style="text-decoration: none;color: rgb(204, 204, 204);">实名认证</a>
               </li>
-              <li @click="exit">
+              <li @click="exit1">
                 <i class="iconfont icon-tuichu"></i>
                 <a href="#"  style="text-decoration: none; color: rgb(204, 204, 204);">退出</a>
               </li>
@@ -80,7 +80,7 @@
 import Triangle from '@/components/subnav/Triangle'
 import search1 from '@/components/search/search'
 //引入二维码的接口
-import {EwmKey,EwmSc,CheckEwm} from "../../network/login"
+import {EwmKey,EwmSc,CheckEwm,exit} from "../../network/login"
 import {search} from '@/network/search'
 import {debounce} from '../../assets/js/tool'
 export default {
@@ -215,8 +215,10 @@ export default {
     
     },
     //退出
-    exit(){
+    async exit1(){
       this.$store.state.user.userinfo = []
+      const res = await exit();
+      console.log(res);
       this.$message.success('退出成功')
     },
     //搜索框输入
@@ -298,7 +300,6 @@ export default {
   align-items: center;
   .left {
     cursor: pointer;
-    margin-right: 10px;
     flex: 1;
     // width: 100%;
     // height: 70px;
@@ -323,7 +324,6 @@ export default {
     height: 70px;
     line-height: 70px;
     display: flex;
-    margin-right: 50px;
     margin-left: 20px;
     .title {
       width: 20%;

@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    oooo
     <nav-bar :class="[actived ? 'fixed':'navbar']" ></nav-bar>
-
     <bot-nav class="botnav"></bot-nav>
     <div :class="{mask:maskshow}">
-      <login :class="{login1:maskshow}" v-show="maskshow"></login>
+      <login :class="{login1:maskshow}" v-show="maskshow" ></login>
     </div>
     <keep-alive include="searchjiemian">
       <router-view ></router-view>
@@ -20,6 +18,7 @@ import NavBar from '@/components/navbar/NavBar'
 import BotNav from '@/components/botnav/BotNav'
 //登录页面组件
 import login from '@/components/login/login'
+import axios from 'axios'
 export default {
   name: 'App',
   components: {
@@ -30,10 +29,14 @@ export default {
   data(){
     return{
       maskshow: false,
-      fixed: false
+      fixed: false,
+      num: 1
     }
   },
   mounted(){
+    axios.get('http://127.0.0.1:7002/').then(res=>{
+      console.log(res,'egg');
+    })
     this.$bus.$on('loginshow',()=>{
       this.maskshow = true
       document.documentElement.style.overflow='hidden';
@@ -56,7 +59,8 @@ export default {
       }else{
       return false
       }
-    },
+    }
+   
   }
 }
 </script>
@@ -79,7 +83,6 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
   
 }
 .mask{

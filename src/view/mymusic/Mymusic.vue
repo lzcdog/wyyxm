@@ -19,7 +19,7 @@
       </div>
     </div>
     </div>
-    
+    <a data-v-5691a8ff="" href="https://beian.miit.gov.cn/">CopyRight © 粤ICP备2021142241号</a>
   </div>
 </template>
 

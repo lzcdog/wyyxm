@@ -26,11 +26,12 @@ export default {
   height: 45px;
   background-color: rgb(245,245,245);
   border: 1px solid rgb(212,212,212);
-  position: fixed;
-  bottom: 180px;
-  right: 400px;
   text-align: center;
   font-size: 10px;
+  position: fixed;
+  left: 50%;
+  margin-left: 520px;
+  bottom: 350px;
   color: rgb(152,152,152);
   cursor: pointer;
   .totop1{

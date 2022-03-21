@@ -35,3 +35,8 @@ export function userinfoo(data){
     params: data
   })
 }
+export function exit() {
+  return request({
+    url:"/logout",
+  })
+}

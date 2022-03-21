@@ -19,9 +19,4 @@ export function newshelves(){
   })
 }
 
-export function listdata(data){
-  return request({
-    url: "/top/list",
-    params: data
-  })
-}
+
