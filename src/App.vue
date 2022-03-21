@@ -2,7 +2,7 @@
   <div id="app">
     
     <nav-bar :class="[actived ? 'fixed':'navbar']" ></nav-bar>
-
+12345
     <bot-nav class="botnav"></bot-nav>
     <div :class="{mask:maskshow}">
       <login :class="{login1:maskshow}" v-show="maskshow" ></login>
