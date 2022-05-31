@@ -3,7 +3,7 @@
     <div class="mymusicleft" ref="mymusicleft" :style="height">
       <div class="content" >
         <h2>
-          <a href="#" style="padding-left: 40px;">我的歌手(2)</a>
+          <a href="#" style="padding-left: 40px;">我的歌手(3)</a>
         </h2>
         <h2 style="">
           <a href="#" style="padding-left: 40px;">我的视频(4)</a>
